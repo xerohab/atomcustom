@@ -10,10 +10,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu+Condensed&display=swap" rel="stylesheet">
 
     @vite(['resources/themes/' .  setting('theme') . '/css/app.css', 'resources/themes/' .  setting('theme') . '/js/app.js'], 'build')
+
+    <style>
+        /* Server Switcher Styles */
+        .server-switcher {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            background: #000;
+            padding: 5px 15px 5px 20px;
+            border-bottom-right-radius: 10px;
+            display: flex;
+            gap: 10px;
+            border: 1px solid #333;
+            border-top: none;
+            border-left: none;
+        }
+        .server-btn {
+            background: #333; color: white; border: 1px solid #555;
+            padding: 5px 10px; cursor: pointer; font-family: sans-serif; font-size: 12px;
+            text-decoration: none; user-select: none;
+        }
+        .server-btn:hover { background: #555; }
+        .server-btn.active { background: #47b018; border-color: #47b018; font-weight: bold; }
+        .server-status { color: white; font-size: 12px; align-self: center; margin-right: 5px; }
+    </style>
 </head>
 
 <body class="overflow-hidden" id="nitro-client">
-    <div class="absolute top-4 left-4 z-10 flex gap-x-2">
+
+    {{-- SERVER SWITCHER (UK & USA) --}}
+    <div class="server-switcher">
+        <span class="server-status">CURRENT: <b id="status-text">...</b></span>
+
+        <button class="server-btn" id="btn-uk" onclick="switchServer('uk')">
+            UK
+        </button>
+
+        <button class="server-btn" id="btn-usa" onclick="switchServer('usa')">
+            USA
+        </button>
+    </div>
+
+    {{-- CLIENT BUTTONS --}}
+    <div class="absolute left-4 z-10 flex gap-x-2" style="top: 50px;">
         <a data-turbolinks="false" href="{{ route('me.show') }}">
             <x-client.client-button>
                 <x-icons.home />
@@ -34,15 +75,16 @@
 
         <x-client.client-button classes="flex items-center justify-center gap-x-1">
             <x-icons.user />
-
-            <span id="online-count"></span>
+            <span id="online-count">0</span>
         </x-client.client-button>
     </div>
-    <iframe id="nitro" src="{{ sprintf('%s/index.html?sso=%s', setting('nitro_path'), $sso) }}"
+
+    {{-- IFRAME --}}
+    <iframe id="nitro" src=""
         class="absolute top-0 left-0 m-0 h-full w-full overflow-hidden border-none p-0"></iframe>
 
-    {{-- Show disconnected message on client if the user has been disconnected --}}
-    <div id="disconnected" class="h-screen w-full">
+    {{-- Show disconnected message --}}
+    <div id="disconnected" class="h-screen w-full" style="display:none;">
         <div class="absolute h-full w-full bg-black/50"></div>
 
         <div class="relative flex h-full w-full flex-col items-center justify-center gap-4">
@@ -67,36 +109,72 @@
     </div>
 
     <script>
+        // CONFIGURATION
+        const CONFIG = {
+            sso: "{{ $sso }}",
+            basePath: "{{ setting('nitro_path') }}",
+            proxyUk: "wss://poland.proxypanel.co.uk:9764",
+            proxyUsa: "wss://us.proxypanel.co.uk:1000"
+        };
+
+        // SWITCH SERVER LOGIC
+        function switchServer(region) {
+            localStorage.setItem('nitro_region', region);
+
+            let selectedIp = (region === 'usa') ? CONFIG.proxyUsa : CONFIG.proxyUk;
+            let statusText = (region === 'usa') ? "USA" : "UK";
+
+            region = (region === 'usa') ? 'usa' : 'uk';
+
+            // Update UI
+            document.getElementById('status-text').innerText = statusText;
+            document.title = "{{ setting('hotel_name') }} - Nitro [" + statusText + "]";
+
+            document.getElementById('btn-uk').className = (region === 'uk') ? 'server-btn active' : 'server-btn';
+            document.getElementById('btn-usa').className = (region === 'usa') ? 'server-btn active' : 'server-btn';
+
+            // Set iframe src
+            const iframe = document.getElementById('nitro');
+            const targetSrc = `${CONFIG.basePath}/index.html?sso=${CONFIG.sso}&ip=${selectedIp}`;
+
+            if (iframe.src !== targetSrc) {
+                iframe.src = targetSrc;
+            }
+
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
         function toggleFullscreen() {
             if (document.fullscreenElement) {
                 document.exitFullscreen();
-
                 return;
             }
-
             document.documentElement.requestFullscreen();
         }
 
         function reloadClient() {
-            window.location.href = window.location;
+            window.location.reload();
         }
 
         window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const urlRegion = urlParams.get('region');
+            let savedRegion = urlRegion || localStorage.getItem('nitro_region') || 'uk';
+
+            switchServer(savedRegion);
+
             function getOnlineUserCount() {
                 fetch('{{ route('api.online-count') }}')
-                    .then(function(response) {
-                        return response.json();
+                    .then(res => res.json())
+                    .then(data => {
+                        const count = data.onlineCount ?? data.online_count ?? 0;
+                        document.getElementById('online-count').innerText = count;
                     })
-                    .then(function(response) {
-                        document.getElementById('online-count').innerHTML = response.data.onlineCount;
-                    });
+                    .catch(() => {});
             }
 
             getOnlineUserCount();
-
-            setInterval(function() {
-                getOnlineUserCount();
-            }, 15000);
+            setInterval(getOnlineUserCount, 15000);
         });
     </script>
 

@@ -1,33 +1,38 @@
 @props(['user'])
 
-<div class="relative h-24 w-full overflow-hidden rounded border bg-white dark:border-gray-900 dark:bg-gray-700 md:mt-0">
-    <div class="absolute top-1 right-1 rounded bg-white px-2 text-sm font-semibold dark:bg-gray-900 dark:text-gray-300">
-        {{ $user->permission?->rank_name }}
-    </div>
+<div class="relative flex h-24 w-full overflow-hidden rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 shadow-sm transition hover:shadow-md">
 
-    <div class="h-[65%] w-full staff-bg"
-        style="background: rgba(0, 0, 0, 0.5) url({{ asset(sprintf('assets/images/%s', $user->permission?->staff_background ?? 'staff-bg.png')) }});">
-    </div>
-
-    <div class="absolute top-4 left-1 drop-shadow">
-        <a href="{{ route('profile.show', $user->username) }}">
-            <img style="image-rendering: pixelated;" class="transition duration-300 ease-in-out hover:scale-105"
-                src="{{ setting('avatar_imager') }}{{ $user->look }}&direction=2&head_direction=3&gesture=sml&action=wav"
-                alt="">
+    <!-- Left Avatar Box: Head-Only Render -->
+    <div class="relative w-16 h-full bg-gray-900/60 dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 flex items-center justify-center overflow-hidden flex-shrink-0">
+        <a href="{{ route('profile.show', $user->username) }}" class="flex items-center justify-center">
+            <img style="image-rendering: pixelated; background: transparent !important;"
+                 class="h-[65px] w-auto max-w-none transition duration-200 hover:scale-105 drop-shadow-[0_4px_4px_rgba(0,0,0,0.6)]"
+                 src="{{ setting('avatar_imager') }}{{ $user->look }}&direction=2&head_direction=2&headonly=1"
+                 alt="{{ $user->username }}">
         </a>
     </div>
 
-    <p class="text-2xl font-semibold ml-[70px] text-white -mt-[35px]">
-        {{ $user->username }}
-    </p>
+    <!-- Right Details Section -->
+    <div class="flex flex-1 flex-col justify-center px-3 py-2 overflow-hidden min-w-0">
+        <div class="flex items-center gap-1.5 min-w-0">
+            <!-- Online Status Indicator Dot -->
+            <span class="inline-block h-2 w-2 min-w-[8px] rounded-full {{ $user->online ? 'bg-green-500' : 'bg-gray-400' }}"
+                  title="{{ $user->online ? 'Online' : 'Offline' }}"></span>
 
-    <div class="flex w-full items-center justify-between px-4">
-        <p class="ml-[57px] text-sm mt-[10px] font-semibold text-gray-500 truncate">
-            {{ Str::limit($user->motto, 20) }}
-        </p>
-
-        <div
-            class="min-w-[15px] max-w-[15px] min-h-[15px] max-h-[15px] rounded-full mt-2 flex items-start {{ $user->online ? 'bg-green-600' : 'bg-red-600' }}">
+            <!-- Username -->
+            <a href="{{ route('profile.show', $user->username) }}" class="text-sm font-bold text-gray-900 dark:text-white hover:underline truncate">
+                {{ $user->username }}
+            </a>
         </div>
+
+        <!-- Rank Title -->
+        <span class="text-xs font-semibold text-gray-500 dark:text-gray-400 truncate mt-0.5">
+            {{ $user->permission?->rank_name ?? 'Staff' }}
+        </span>
+
+        <!-- Motto -->
+        <p class="text-[11px] italic text-gray-600 dark:text-gray-300 truncate mt-0.5">
+            "{{ Str::limit($user->motto, 18) }}"
+        </p>
     </div>
 </div>

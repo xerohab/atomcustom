@@ -1,115 +1,90 @@
-<div class="relative hidden h-full w-full flex-col items-center gap-y-2 py-3! md:flex! md:flex-row! md:gap-x-8 md:gap-y-0 md:py-0!" id="mobile-menu">
-    @auth
-        <x-navigation.dropdown icon="home" route-group="user*">
-            {{ auth()->user()->username }}
+<header class="w-full bg-zinc-950/90 backdrop-blur-md border-b border-amber-500/30 sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-6">
+            <a href="{{ url('/user/me') }}">
+                <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Hotel Logo" class="h-9 w-auto">
+            </a>
+            <nav class="hidden md:flex items-center gap-5 text-xs font-bold uppercase tracking-wider">
+                <!-- Home Dashboard -->
+                <a href="{{ url('/user/me') }}"
+                   class="{{ Request::is('user/me') || Request::is('me') ? 'text-amber-400 border-b-2 border-amber-400 pb-1' : 'text-zinc-300 hover:text-amber-300 transition' }}">
+                    Home
+                </a>
 
-            <x-slot:children>
-                <x-navigation.dropdown-child :route="route('me.show')">
-                    {{ __('Home') }}
-                </x-navigation.dropdown-child>
+                <!-- My Profile Link -->
+                @auth
+                    <a href="{{ url('/profile/' . auth()->user()->username) }}"
+                       class="{{ Request::is('profile/' . auth()->user()->username) ? 'text-amber-400 border-b-2 border-amber-400 pb-1' : 'text-zinc-300 hover:text-amber-300 transition' }}">
+                        My Profile
+                    </a>
+                @endauth
 
-				<x-navigation.dropdown-child :route="route('draw-badge')">
-                    {{ __('Badge Drawer') }}
-                </x-navigation.dropdown-child>
+                <!-- Shop Link -->
+                <a href="{{ route('shop.index') }}"
+                   class="{{ Request::is('shop*') ? 'text-amber-400 border-b-2 border-amber-400 pb-1' : 'text-zinc-300 hover:text-amber-300 transition' }}">
+                    Shop
+                </a>
 
-                <x-navigation.dropdown-child :route="route('profile.show', auth()->user()->username)">
-                    {{ __('My Profile') }}
-                </x-navigation.dropdown-child>
+                <!-- Community Dropdown -->
+                <div class="relative group py-1">
+                    <button type="button" class="flex items-center gap-1 {{ Request::is('community*') ? 'text-amber-400 border-b-2 border-amber-400 pb-1' : 'text-zinc-300 hover:text-amber-300 transition' }}">
+                        Community
+                        <svg class="w-3 h-3 transition-transform group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
 
-                <x-navigation.dropdown-child :route="route('home.show', auth()->user()->username)">
-                    {{ __('My Home') }}
-                </x-navigation.dropdown-child>
-            </x-slot:children>
-        </x-navigation.dropdown>
-    @else
-        <a href="{{ route('welcome') }}"
-           class="nav-item dark:text-gray-200 {{ request()->routeIs('welcome') ? 'md:border-b-4! md:border-b-[#eeb425]!' : '' }}">
-            <i class="mr-1 hidden navigation-icon home lg:inline-flex"></i>
-            {{ __('Home') }}
-        </a>
-    @endauth
+                    <div class="absolute left-0 mt-2 w-48 rounded-2xl bg-zinc-950/95 border border-amber-500/30 shadow-2xl py-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                        <a href="{{ url('/community/photos') }}" class="block px-4 py-2 text-xs font-bold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 transition">
+                            Camera Photos
+                        </a>
+                        <a href="{{ url('/community/staff') }}" class="block px-4 py-2 text-xs font-bold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 transition">
+                            Hotel Staff
+                        </a>
+                        <a href="{{ url('/community/staff-applications') }}" class="block px-4 py-2 text-xs font-bold text-zinc-300 hover:bg-amber-500/10 hover:text-amber-400 transition">
+                            Staff Applications
+                        </a>
+                    </div>
+                </div>
 
-    @auth
-        <x-navigation.dropdown icon="community" route-group="community*" :uppercase="true">
-            {{ __('Community') }}
+                <!-- News Link -->
+                <a href="{{ url('/community/articles') }}"
+                   class="{{ Request::is('community/articles*') ? 'text-amber-400 border-b-2 border-amber-400 pb-1' : 'text-zinc-300 hover:text-amber-300 transition' }}">
+                    News
+                </a>
 
-            <x-slot:children>
-                <x-navigation.dropdown-child :route="route('article.index')">
-                    {{ __('Articles') }}
-                </x-navigation.dropdown-child>
+                <!-- Help Center Link -->
+                <a href="{{ route('help-center.index') }}"
+                   class="{{ Request::is('help-center*') ? 'text-amber-400 border-b-2 border-amber-400 pb-1' : 'text-zinc-300 hover:text-amber-300 transition' }}">
+                    Help Center
+                </a>
 
-                <x-navigation.dropdown-child :route="route('staff.index') ">
-                    {{ __('Staff') }}
-                </x-navigation.dropdown-child>
+                @if(setting('discord_invitation_link'))
+                    <a href="{{ setting('discord_invitation_link') }}" target="_blank" class="text-indigo-400 hover:text-indigo-300 transition">
+                        Discord
+                    </a>
+                @endif
 
-                <x-navigation.dropdown-child :route="route('teams.index')">
-                    {{ __('Teams') }}
-                </x-navigation.dropdown-child>
-                
-                <x-navigation.dropdown-child :route="route('team-applications.index')">
-                    {{ __('Team applications') }}
-                </x-navigation.dropdown-child>
+                @if(canAccessHkPermission('housekeeping_access'))
+                    <a href="{{ url('/housekeeping') }}" class="text-red-400 hover:text-red-300 font-extrabold transition">
+                        Housekeeping
+                    </a>
+                @endif
+            </nav>
+        </div>
 
-                <x-navigation.dropdown-child :route="route('staff-applications.index')">
-                    {{ __('Staff applications') }}
-                </x-navigation.dropdown-child>
+        <div class="flex items-center gap-3">
+            <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl bg-black/60 border border-amber-500/30 text-xs font-bold text-amber-400">
+                <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                {{ $onlineUsersCount ?? 0 }} users online
+            </div>
 
-                <x-navigation.dropdown-child :route="route('photos.index')">
-                    {{ __('Photos') }}
-                </x-navigation.dropdown-child>
-            </x-slot:children>
-        </x-navigation.dropdown>
-
-        <a href="{{ route('leaderboard.index') }}"
-           class="nav-item dark:text-gray-200 {{ request()->routeIs('leaderboard.*') ? 'md:border-b-4! md:border-b-[#eeb425]!' : '' }}">
-            <i class="navigation-icon leaderboards mr-1 hidden lg:inline-flex"></i>
-            {{ __('Leaderboards') }}
-        </a>
-
-        <a href="{{ route('values.index') }}"
-           class="nav-item dark:text-gray-200 {{ request()->routeIs('values.*') ? 'md:border-b-4! md:border-b-[#eeb425]!' : '' }}">
-            <i class="navigation-icon leaderboards mr-1 hidden lg:inline-flex"></i>
-            {{ __('Rare values') }}
-        </a>
-
-        <a data-turbolinks="false" href="{{ route('shop.index') }}"
-           class="nav-item dark:text-gray-200 {{ request()->routeIs('shop.*') ? 'md:border-b-4! md:border-b-[#eeb425]!' : '' }}">
-            <i class="navigation-icon mr-1 hidden lg:inline-flex shop"></i>
-            {{ __('Shop') }}
-        </a>
-    @endauth
-
-    <x-navigation.dropdown icon="rules" route-group="help-center*" :uppercase="true">
-        {{ __('Assistance') }}
-
-        <x-slot:children>
-			@auth
-            <x-navigation.dropdown-child :route="route('help-center.index')">
-                {{ __('Help center') }}
-            </x-navigation.dropdown-child>
-
-            @if(hasPermission('manage_website_tickets'))
-                <x-navigation.dropdown-child :route="route('help-center.ticket.index')">
-                    {{ __('Open tickets') }}
-                </x-navigation.dropdown-child>
-            @endif
-
-            @else
-                <x-navigation.dropdown-child :route="route('help-center.rules.index')">
-                    {{ __('Rules') }}
-                </x-navigation.dropdown-child>
-            @endauth
-        </x-slot:children>
-    </x-navigation.dropdown>
-
-    <a href="{{ setting('discord_invitation_link') }}" target="_blank" class="nav-item dark:text-gray-200">
-        {{ __('Discord') }}
-    </a>
-
-    <div class="w-full flex md:hidden gap-x-1 justify-center">
-        <x-navigation.language-selector>
-            <img src="/assets/images/icons/flags/{{ session()->has('locale') ? session()->get('locale') : config('habbo.site.default_language') }}.png"
-                 alt="">
-        </x-navigation.language-selector>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="px-4 py-2 rounded-xl bg-red-950 hover:bg-red-900 border border-red-500/40 text-amber-300 font-bold text-xs uppercase tracking-wider transition">
+                    Logout
+                </button>
+            </form>
+        </div>
     </div>
-</div>
+</header>

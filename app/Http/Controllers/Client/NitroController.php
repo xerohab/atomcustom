@@ -10,12 +10,18 @@ class NitroController extends Controller
 {
     public function __invoke(): View
     {
-        Auth::user()->update([
-            'ip_current' => request()->ip(),
-        ]);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        // Save IP explicitly
+        $user->ip_current = request()->ip();
+        $user->save();
+
+        // Generate and persist SSO ticket using model method
+        $ssoTicket = $user->ssoTicket();
 
         return view('client.nitro', [
-            'sso' => Auth::user()->ssoTicket(),
+            'sso' => $ssoTicket,
         ]);
     }
 }

@@ -40,3 +40,9 @@ opencode.json
 .mcp.json
 boost.json
 RELEASE.md
+
+# Livewire temporary uploads
+/storage/app/livewire-tmp/
+
+# Yarn generated install state
+/.yarn/

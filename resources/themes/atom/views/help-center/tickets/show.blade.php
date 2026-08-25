@@ -1,185 +1,86 @@
-<x-app-layout>
-    @push('title', 'Create a ticket')
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lounge Hotel - Ticket #{{ $ticket->id }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { theme: { extend: { colors: { gold: { 300: '#fde047', 400: '#facc15', 500: '#eab308', 600: '#ca8a04' } } } } }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed; background-size: cover; }
+    </style>
+</head>
+<body class="min-h-screen text-white relative antialiased flex flex-col justify-between">
+    <div class="fixed inset-0 bg-black/70 backdrop-blur-[2px] z-0"></div>
+    <div class="relative z-10">
 
-    <x-content.content-card icon="chat-icon" classes="border dark:border-gray-900 dark:text-gray-100 col-span-12 lg:col-span-9">
-        <x-slot:title>
-           <div class="flex gap-x-2">
-               {{ $ticket->title }} [{{ $ticket->category->name }}]
+        <!-- HEADER -->
+        <header class="w-full bg-zinc-950/90 backdrop-blur-md border-b border-amber-500/30 sticky top-0 z-50">
+            <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center gap-6">
+                    <a href="{{ url('/user/me') }}">
+                        <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Logo" class="h-9 w-auto">
+                    </a>
+                    <nav class="hidden md:flex items-center gap-5 text-xs font-bold uppercase tracking-wider">
+                        <a href="{{ route('help-center.ticket.index') }}" class="text-zinc-300 hover:text-amber-300 transition">&larr; Back to Tickets</a>
+                    </nav>
+                </div>
+            </div>
+        </header>
 
-               @if($ticket->canManageTicket())
-                   <a data-turbolinks="false" href="{{ route('help-center.ticket.edit', $ticket) }}">
-                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                           <path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
-                       </svg>
-                   </a>
-               @endif
-           </div>
-        </x-slot:title>
+        <main class="max-w-4xl mx-auto px-4 py-8 space-y-6">
 
-        <div class="w-full flex gap-x-3">
-            @if($ticket->isOpen())
-                <form action="{{ route('help-center.ticket.toggle-status', $ticket) }}" method="POST" class="w-full">
-                    @method('PUT')
-                    @csrf
-
-                    <x-form.secondary-button>
-                        Close
-                    </x-form.secondary-button>
-                </form>
-            @else
-                <form action="{{ route('help-center.ticket.toggle-status', $ticket) }}" method="POST" class="w-full">
-                    @method('PUT')
-                    @csrf
-
-                    <x-form.primary-button>
-                        Re-open
-                    </x-form.primary-button>
-                </form>
-            @endif
-
-            <form action="{{ route('help-center.ticket.destroy', $ticket) }}" method="POST" class="w-full">
-                @method('DELETE')
-                @csrf
-
-                <x-form.danger-button>
-                    Delete
-                </x-form.danger-button>
-            </form>
-        </div>
-
-        <article class="prose-xl mt-8" style="width: 100%;">
-            {!! $ticket->content !!}
-        </article>
-    </x-content.content-card>
-
-   <div class="col-span-12 lg:col-span-3">
-       <x-content.content-card icon="duo-chat-icon"
-                               classes="border dark:border-gray-900 dark:text-gray-100">
-           <x-slot:title>
-               {{ __('Open tickets') }}
-           </x-slot:title>
-
-           <x-slot:under-title>
-               {{ __('Your current open tickets') }}
-           </x-slot:under-title>
-
-           <div class="flex flex-col gap-2">
-               @forelse($openTickets as $ticket)
-                   <div class="w-full rounded bg-gray-200 p-2 dark:bg-gray-700">
-                       <div class="flex items-center gap-x-1">
-                           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="w-4 h-4">
-                               <path stroke-linecap="round" stroke-linejoin="round"
-                                     d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5"/>
-                           </svg>
-
-                           <a data-turbolinks="false" href="{{ route('help-center.ticket.show', $ticket) }}" class="hover:text-[#eeb425]">
-                               {{ Str::limit($ticket->title, 20) }}
-                           </a>
-                       </div>
-                   </div>
-               @empty
-                   <p>
-                       You currently have no open tickets.
-                   </p>
-               @endforelse
-           </div>
-       </x-content.content-card>
-   </div>
-
-    <x-content.content-card icon="duo-chat-icon"
-                            classes="border dark:border-gray-900 dark:text-gray-100 border dark:border-gray-900 dark:text-gray-100 col-span-12 lg:col-span-9 -mt-4">
-        <x-slot:title>
-            {{ __('Comments') }}
-        </x-slot:title>
-
-        <x-slot:under-title>
-            {{ __('Please submit your reply below') }}
-        </x-slot:under-title>
-
-        @if($ticket->isOpen())
-            <form action="{{ route('help-center.ticket.reply.store', $ticket) }}" method="POST">
-                @csrf
-
-                <x-form.wysiwyg-editor />
-
-                <x-form.secondary-button classes="mt-2">
-                    {{ __('Submit reply') }}
-                </x-form.secondary-button>
-            </form>
-        @endif
-
-        <div class="flex flex-col gap-y-4 mt-4">
-            @forelse($ticket->replies->sortByDesc('created_at') as $reply)
-                @if($reply->user_id === auth()->user()->id)
-                    <div class="w-full rounded bg-gray-200 dark:bg-gray-700">
-                        <div class="h-[50px] px-4 flex items-center justify-between border-b border-gray-300 dark:border-gray-800 relative overflow-hidden">
-                            <div class="flex">
-                                <small class="ml-14 text-gray-400">{{ $reply->user->username }}</small>
-                                <div class="absolute left-2 -bottom-10 flex gap-x-2">
-                                    <img src="{{ setting('avatar_imager') }}/{{ $reply->user->look }}" alt="">
-                                </div>
-                            </div>
-
-                            <div class="flex gap-x-2">
-                                <small class="text-gray-400">{{ $reply->created_at->diffForHumans() }}</small>
-
-                                @if($reply->user_id === Auth::id() || hasPermission('delete_website_ticket_replies'))
-                                    <form action="{{ route('help-center.ticket.reply.destroy', $reply) }}" method="POST">
-                                        @method('DELETE')
-                                        @csrf
-
-                                        <button type="submit">
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                            </svg>
-                                        </button>
-                                    </form>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="p-4">
-                            {!! $reply->content !!}
-                        </div>
+            <div class="bg-zinc-900/90 backdrop-blur-md border-2 border-amber-500/40 rounded-3xl p-6 lg:p-8 shadow-2xl space-y-4">
+                <div class="flex items-center justify-between border-b border-amber-500/20 pb-4">
+                    <div>
+                        <h1 class="text-xl font-extrabold text-amber-400">Ticket #{{ $ticket->id }}: {{ $ticket->subject }}</h1>
+                        <p class="text-xs text-zinc-400">Department: <strong class="text-amber-300 uppercase">{{ str_replace('_', ' ', $ticket->department) }}</strong></p>
                     </div>
-                @else
-                    <div class="w-full rounded bg-gray-200 dark:bg-gray-700">
-                        <div class="h-[50px] px-4 flex items-center justify-between border-b border-gray-300 dark:border-gray-800 relative overflow-hidden">
-                            <div class="flex gap-x-2">
-                                <form action="{{ route('help-center.ticket.reply.destroy', $reply) }}" method="POST">
-                                    @method('DELETE')
-                                    @csrf
+                    <span class="px-3 py-1 rounded-xl text-xs font-extrabold uppercase {{ $ticket->status === 'open' ? 'bg-amber-500/20 text-amber-400 border border-amber-500/30' : 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/30' }}">
+                        {{ $ticket->status }}
+                    </span>
+                </div>
 
-                                    <button type="submit">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                        </svg>
-                                    </button>
-                                </form>
+                <div class="p-4 rounded-2xl bg-black/50 border border-amber-500/20 text-xs space-y-1">
+                    <span class="text-[10px] text-amber-400 font-extrabold uppercase">Original Message</span>
+                    <p class="text-zinc-200 leading-relaxed whitespace-pre-line">{{ $ticket->message }}</p>
+                </div>
 
-                                <small class="text-gray-400">{{ $reply->created_at->diffForHumans() }}</small>
-                            </div>
+                <div class="space-y-3 pt-2">
+                    <h3 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">Conversation History</h3>
 
-
-                            <div class="flex">
-                                <small class="mr-14 text-gray-400">{{ $reply->user->username }}</small>
-                                <div class="absolute right-2 -bottom-10 flex gap-x-2">
-                                    <img class="scale-x-[-1]" src="{{ setting('avatar_imager') }}/{{ $reply->user->look }}" alt="">
+                    <div class="space-y-3 max-h-96 overflow-y-auto pr-2">
+                        @forelse($replies as $reply)
+                            <div class="p-3.5 rounded-2xl border text-xs space-y-1 {{ $reply->rank >= 6 ? 'bg-amber-950/20 border-amber-500/40 ml-6' : 'bg-black/50 border-zinc-800 mr-6' }}">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-extrabold {{ $reply->rank >= 6 ? 'text-amber-400' : 'text-zinc-200' }}">{{ $reply->username }} {{ $reply->rank >= 6 ? '(Staff)' : '' }}</span>
+                                    <span class="text-[10px] font-mono text-zinc-500">{{ date('M d, Y H:i', strtotime($reply->created_at)) }}</span>
                                 </div>
+                                <p class="text-zinc-300 whitespace-pre-line leading-relaxed">{{ $reply->message }}</p>
                             </div>
-                        </div>
-
-                        <div class="p-4">
-                            {!! $reply->content !!}
-                        </div>
+                        @empty
+                            <p class="text-xs text-zinc-500 italic p-2">No replies yet. Staff will respond shortly.</p>
+                        @endforelse
                     </div>
+                </div>
+
+                @if($ticket->status !== 'closed')
+                    <form method="POST" action="{{ route('help-center.ticket.reply.store', $ticket->id) }}" class="pt-4 border-t border-amber-500/20 space-y-3">
+                        @csrf
+                        <textarea name="message" rows="3" required placeholder="Type your reply..." class="w-full px-3 py-2 rounded-2xl bg-black/60 border border-amber-500/30 text-xs text-white font-bold focus:outline-none"></textarea>
+                        <div class="flex justify-end">
+                            <button type="submit" class="px-5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-zinc-950 font-black text-xs uppercase tracking-wider transition">Send Reply</button>
+                        </div>
+                    </form>
                 @endif
-            @empty
-                <p>
-                    {{ __('There is currently no replies') }}
-                </p>
-            @endforelse
-        </div>
-    </x-content.content-card>
-</x-app-layout>
+            </div>
+
+        </main>
+    </div>
+</body>
+</html>

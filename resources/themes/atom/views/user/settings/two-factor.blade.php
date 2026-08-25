@@ -1,107 +1,176 @@
-<x-app-layout>
-    @push('title', __('Two factor'))
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lounge - Two-Factor Authentication</title>
 
-    <div class="col-span-12 flex flex-col gap-y-3 md:col-span-3">
-        <x-user.settings.settings-navigation />
-    </div>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            300: '#fde047',
+                            400: '#facc15',
+                            500: '#eab308',
+                            600: '#ca8a04',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
 
-    <div class="col-span-12 flex flex-col gap-y-3 md:col-span-9">
-        <x-content.content-card icon="hotel-icon" classes="border dark:border-gray-900">
-            <x-slot:title>
-                {{ __('Two factor authentication') }}
-            </x-slot:title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-            <x-slot:under-title>
-                {{ __('Add an extra layer of security to your account by enabling two-factor authentication') }}
-            </x-slot:under-title>
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
+            background-size: cover;
+        }
 
-            <!-- 2FA enabled, we display the QR code : -->
-            @if (auth()->user()->two_factor_confirmed)
-                <form action="{{ route('user.two-factor.disable') }}" method="post">
-                    @csrf
-                    @method('delete')
+        .lounge-card-bg {
+            background-image: linear-gradient(to bottom, rgba(15, 5, 7, 0.85), rgba(15, 5, 7, 0.95)),
+                              url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
+            background-size: cover;
+            background-position: center;
+        }
+    </style>
+</head>
+<body class="min-h-screen text-white relative overflow-x-hidden antialiased flex flex-col justify-between">
 
-                    <x-form.danger-button>
-                        {{ __('Disable 2FA') }}
-                    </x-form.danger-button>
-                </form>
+    <!-- Dark Page Overlay -->
+    <div class="fixed inset-0 bg-black/60 backdrop-blur-[2px] z-0"></div>
 
-                {{-- 2FA enabled but not yet confirmed, we show the QRcode and ask for confirmation --}}
-            @elseif(auth()->user()->two_factor_secret)
-                <p>{{ __('Validate your two-factor enabling by scanning the following QR-code and enter your auto-generated 2-factor code from your phone.') }}
-                </p>
+    <!-- Content Wrapper -->
+    <div class="relative z-10">
 
-                <div class="mt-4 flex flex-col items-center md:flex-row md:items-start md:justify-center">
-                    <div class="flex gap-x-8 rounded bg-gray-100 px-4 py-2">
-                        <span class="flex items-center">
-                            {!! auth()->user()->twoFactorQrCodeSvg() !!}
-                        </span>
+        <!-- UNIVERSAL NAVIGATION MENU -->
+        @include('components.navigation.navigation-menu')
 
-                        <div>
-                            <strong>
-                                {{ __('Recovery codes:') }}
-                            </strong>
+        <!-- MAIN CONTAINER -->
+        <main class="max-w-4xl mx-auto px-4 py-8 space-y-6">
 
-                            <ul>
-                                @foreach (auth()->user()->recoveryCodes() as $code)
-                                    <li>{{ $code }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+            <!-- HEADER HERO -->
+            <div class="bg-zinc-900/90 backdrop-blur-md border-2 border-amber-500/40 rounded-3xl p-6 lg:p-8 shadow-2xl flex items-center justify-between">
+                <div>
+                    <h1 class="text-3xl font-extrabold text-amber-400">Settings</h1>
+                    <p class="text-xs text-zinc-300 mt-1">
+                        Manage your account preferences, motto, email address, and security.
+                    </p>
+                </div>
+            </div>
+
+            <!-- SETTINGS SUB-NAVIGATION -->
+            <div class="bg-zinc-900/90 backdrop-blur-md border border-amber-500/30 rounded-2xl p-2 flex flex-wrap gap-2">
+                <a href="{{ url('/user/settings/account') }}"
+                   class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition {{ Request::is('user/settings/account*') ? 'bg-amber-500 text-black shadow-md' : 'text-zinc-300 hover:text-amber-400 hover:bg-black/40' }}">
+                    Account
+                </a>
+                <a href="{{ url('/user/settings/password') }}"
+                   class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition {{ Request::is('user/settings/password*') ? 'bg-amber-500 text-black shadow-md' : 'text-zinc-300 hover:text-amber-400 hover:bg-black/40' }}">
+                    Password
+                </a>
+                <a href="{{ url('/user/settings/session-logs') }}"
+                   class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition {{ Request::is('user/settings/session-logs*') ? 'bg-amber-500 text-black shadow-md' : 'text-zinc-300 hover:text-amber-400 hover:bg-black/40' }}">
+                    Session Logs
+                </a>
+                <a href="{{ url('/user/settings/two-factor') }}"
+                   class="px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition {{ Request::is('user/settings/two-factor*') ? 'bg-amber-500 text-black shadow-md' : 'text-zinc-300 hover:text-amber-400 hover:bg-black/40' }}">
+                    Two-Factor Auth
+                </a>
+            </div>
+
+            <!-- TWO-FACTOR FORM CARD -->
+            <div class="bg-zinc-900/90 backdrop-blur-md border border-amber-500/30 rounded-3xl p-6 lg:p-8 shadow-xl space-y-6">
+                <div class="flex justify-between items-center border-b border-amber-500/20 pb-3">
+                    <div>
+                        <h2 class="text-sm font-extrabold text-amber-400 uppercase tracking-wide">
+                            Two-Factor Authentication (2FA)
+                        </h2>
+                        <p class="text-xs text-zinc-400 mt-0.5">
+                            Add an extra layer of security to your Lounge Hotel account using an authenticator app.
+                        </p>
                     </div>
+
+                    <!-- Status Badge -->
+                    <span class="text-[10px] font-bold uppercase tracking-wider px-3 py-1 rounded-full border {{ auth()->user()->two_factor_secret ? 'bg-emerald-950/80 border-emerald-500/40 text-emerald-400' : 'bg-red-950/80 border-red-500/40 text-red-400' }}">
+                        {{ auth()->user()->two_factor_secret ? 'Enabled' : 'Disabled' }}
+                    </span>
                 </div>
 
-                <div class="mt-2 flex justify-center text-xs italic text-gray-600">
-                    <div class="w-full lg:w-[480px]">
-                        {{ __('Please save your recovery codes somewhere safe! If you lose access to your 2FA codes, those recovery codes will be needed to regain access your account.') }}
-                    </div>
-                </div>
-
-                <form action="{{ route('two-factor.verify') }}" method="POST" class="mt-8">
-                    @csrf
-
-                    <x-form.label for="code">
-                        {{ __('Code') }}
-
-                        <x-slot:info>
-                            {{ __('Please scan the QR-code above with your phone to retrieve your two-factor authentication code.') }}
-                        </x-slot:info>
-                    </x-form.label>
-
-                    <x-form.input classes="mb-3" name="code" placeholder="{{ __('Code') }}" />
-
-                    @if (setting('google_recaptcha_enabled'))
-                        <div class="g-recaptcha" data-sitekey="{{ config('habbo.site.recaptcha_site_key') }}"></div>
-                    @endif
-
-                    @if (setting('cloudflare_turnstile_enabled'))
-                        <x-turnstile />
-                    @endif
-
-                    <x-form.secondary-button classes="mt-4">
-                        {{ __('Verify 2FA') }}
-                    </x-form.secondary-button>
-                </form>
-            @else
-                <div class="flex flex-col items-end">
-                    <div class="flex w-full flex-col gap-y-3 dark:text-gray-100">
-                        <p>
-                            {{ __('Here at :hotel we take security very serious and therefore we offer you as a user a way to secure your beloved account even further, by allowing you to enable Googles 2-factor authentication!', ['hotel' => setting('hotel_name')]) }}
-                        </p>
-
-                        <p>
-                            {{ __('2-factor authentication adds an extra layer of security to your account, making it physical impossible to access it without having access to your mobile phone as only your phone will contain the 2-factor authentication code which will be re-generated every 30 seconds automatically') }}
-                        </p>
-                    </div>
-
-                    <form action="{{ route('user.two-factor.enable') }}" method="post" class="mt-8">
+                @if(!auth()->user()->two_factor_secret)
+                    <!-- SETUP 2FA FORM -->
+                    <form action="{{ url('/user/settings/two-factor') }}" method="POST" class="space-y-6">
                         @csrf
-                        <x-form.secondary-button>
-                            {{ __('Activate 2FA') }}
-                        </x-form.secondary-button>
+
+                        @if(isset($image))
+                            <div class="flex flex-col sm:flex-row items-center gap-6 p-4 rounded-2xl bg-black/50 border border-amber-500/20">
+                                <div class="bg-white p-2 rounded-xl flex-shrink-0">
+                                    <img src="{{ $image }}" alt="QR Code" class="h-32 w-32">
+                                </div>
+                                <div class="space-y-2 text-xs text-zinc-300">
+                                    <h3 class="font-bold text-amber-300 uppercase tracking-wider">Setup Instructions</h3>
+                                    <p>1. Scan the QR code with Google Authenticator or Authy.</p>
+                                    <p>2. Enter the 6-digit code generated by your app below to confirm activation.</p>
+                                    @if(isset($secret))
+                                        <div class="pt-1">
+                                            <span class="text-[10px] font-bold text-zinc-400 block uppercase">Manual Secret Key:</span>
+                                            <code class="text-amber-400 font-mono text-xs">{{ $secret }}</code>
+                                        </div>
+                                    @endif
+                                </div>
+                            </div>
+                        @endif
+
+                        <div class="space-y-1.5 max-w-sm">
+                            <label class="block text-xs font-bold text-amber-300">Authentication Code</label>
+                            <input type="text" name="code" required placeholder="123456" maxlength="6"
+                                   class="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-amber-500/30 text-white placeholder-zinc-500 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 font-mono tracking-widest text-center">
+                        </div>
+
+                        <div class="pt-4 border-t border-amber-500/20 flex justify-end">
+                            <button type="submit" class="px-8 py-3 rounded-xl bg-gradient-to-r from-red-900 via-red-800 to-amber-700 hover:from-red-800 hover:to-amber-600 border border-amber-400/40 font-bold text-amber-100 text-xs uppercase tracking-wider shadow-lg transition">
+                                Enable Two-Factor
+                            </button>
+                        </div>
                     </form>
-                </div>
-            @endif
-        </x-content.content-card>
+                @else
+                    <!-- DISABLE 2FA FORM -->
+                    <form action="{{ url('/user/settings/two-factor') }}" method="POST" class="space-y-5">
+                        @csrf
+                        @method('DELETE')
+
+                        <p class="text-xs text-zinc-300 leading-relaxed">
+                            Two-factor authentication is active on your account. To disable it, confirm your current account password below.
+                        </p>
+
+                        <div class="space-y-1.5 max-w-md">
+                            <label class="block text-xs font-bold text-amber-300">Current Password</label>
+                            <input type="password" name="password" required placeholder="••••••••"
+                                   class="w-full px-4 py-2.5 rounded-xl bg-black/50 border border-amber-500/30 text-white placeholder-zinc-500 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+
+                        <div class="pt-4 border-t border-amber-500/20 flex justify-end">
+                            <button type="submit" class="px-8 py-3 rounded-xl bg-red-950 hover:bg-red-900 border border-red-500/40 font-bold text-red-200 text-xs uppercase tracking-wider shadow-lg transition">
+                                Disable Two-Factor
+                            </button>
+                        </div>
+                    </form>
+                @endif
+
+            </div>
+
+        </main>
     </div>
-</x-app-layout>
+
+</body>
+</html>

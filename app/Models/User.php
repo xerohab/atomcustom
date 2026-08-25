@@ -65,6 +65,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property int $last_online
  * @property string $motto
  * @property string $look
+ * @property string|null $profile_banner
+ * @property string|null $profile_background
+ * @property string|null $profile_quote_prefix
+ * @property string|null $profile_quote
  * @property string $gender
  * @property int $rank
  * @property bool $hidden_staff
@@ -83,97 +87,6 @@ use Spatie\Activitylog\Traits\LogsActivity;
  * @property string|null $pincode
  * @property int|null $extra_rank
  * @property int|null $team_id
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Activity> $activities
- * @property-read int|null $activities_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WebsiteStaffApplications> $applications
- * @property-read int|null $applications_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WebsiteArticleComment> $articleComments
- * @property-read int|null $article_comments_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WebsiteArticle> $articles
- * @property-read int|null $articles_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, UserBadge> $badges
- * @property-read int|null $badges_count
- * @property-read Ban|null $ban
- * @property-read WebsiteBetaCode|null $betaCode
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ChatlogRoom> $chatLogs
- * @property-read int|null $chat_logs_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ChatlogPrivate> $chatLogsPrivate
- * @property-read int|null $chat_logs_private_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, ClaimedReferralLog> $claimedReferralLog
- * @property-read int|null $claimed_referral_log_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, UserCurrency> $currencies
- * @property-read int|null $currencies_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, MessengerFriendship> $friends
- * @property-read int|null $friends_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WebsiteUserGuestbook> $guestbook
- * @property-read int|null $guestbook_count
- * @property-read UserSubscription|null $hcSubscription
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Item> $items
- * @property-read int|null $items_count
- * @property-read DatabaseNotificationCollection<int, DatabaseNotification> $notifications
- * @property-read int|null $notifications_count
- * @property-read Permission|null $permission
- * @property-read \Illuminate\Database\Eloquent\Collection<int, CameraWeb> $photos
- * @property-read int|null $photos_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WebsiteUserGuestbook> $profileGuestbook
- * @property-read int|null $profile_guestbook_count
- * @property-read UserReferral|null $referrals
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Room> $rooms
- * @property-read int|null $rooms_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Session> $sessions
- * @property-read int|null $sessions_count
- * @property-read UserSetting|null $settings
- * @property-read WebsiteTeam|null $team
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WebsiteHelpCenterTicket> $tickets
- * @property-read int|null $tickets_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, PersonalAccessToken> $tokens
- * @property-read int|null $tokens_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WebsitePaypalTransaction> $transactions
- * @property-read int|null $transactions_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, WebsiteUsedShopVoucher> $usedShopVouchers
- * @property-read int|null $used_shop_vouchers_count
- * @property-read \Illuminate\Database\Eloquent\Collection<int, Referral> $userReferrals
- * @property-read int|null $user_referrals_count
- *
- * @method static \Database\Factories\UserFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAccountCreated($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAccountDayOfBirth($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereAuthTicket($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereCredits($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereExtraRank($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereGender($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereHiddenStaff($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereHomeRoom($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIpCurrent($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereIpRegister($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastLogin($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLastOnline($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereLook($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereMachineId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereMail($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereMailVerified($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereMotto($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereOnline($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePassword($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePincode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePixels($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User wherePoints($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRank($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereRealName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereReferralCode($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereSecretKey($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTeamId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorConfirmed($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorConfirmedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorRecoveryCodes($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereTwoFactorSecret($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereUsername($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|User whereWebsiteBalance($value)
- *
  * @mixin \Eloquent
  */
 class User extends Authenticatable implements FilamentUser, HasName
@@ -183,6 +96,26 @@ class User extends Authenticatable implements FilamentUser, HasName
     public $timestamps = false;
 
     protected $guarded = ['id'];
+
+    protected $fillable = [
+        'username',
+        'password',
+        'mail',
+        'gender',
+        'motto',
+        'look',
+        'profile_banner',
+        'profile_background',
+        'profile_quote_prefix',
+        'profile_quote',
+        'auth_ticket',
+        'ip_register',
+        'ip_current',
+        'account_created',
+        'last_login',
+        'last_online',
+        'referral_code',
+    ];
 
     protected $hidden = ['id', 'password', 'remember_token'];
 
@@ -275,7 +208,7 @@ class User extends Authenticatable implements FilamentUser, HasName
 
     public function settings(): HasOne
     {
-        return $this->hasOne(UserSetting::class);
+        return $this->hasOne(UserSetting::class, 'user_id', 'id');
     }
 
     public function ssoTicket(): string
@@ -286,7 +219,8 @@ class User extends Authenticatable implements FilamentUser, HasName
             $sso = sprintf('%s-%s', Str::replace(' ', '', setting('hotel_name')), Str::uuid());
 
             if (! User::where('auth_ticket', $sso)->exists()) {
-                $this->update(['auth_ticket' => $sso]);
+                $this->auth_ticket = $sso;
+                $this->save();
 
                 return $sso;
             }
