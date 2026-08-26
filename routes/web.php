@@ -14,6 +14,7 @@ use App\Http\Controllers\Community\Staff\WebsiteTeamApplicationsController;
 use App\Http\Controllers\Community\Staff\WebsiteTeamsController;
 use App\Http\Controllers\Community\WebsiteRareValuesController;
 use App\Http\Controllers\Help\WebsiteRulesController;
+use App\Http\Controllers\Housekeeping\LoadingScreenController;
 use App\Http\Controllers\Home\HomeController as UserHomeController;
 use App\Http\Controllers\Home\ItemController as HomeItemController;
 use App\Http\Controllers\Home\MessageController as HomeMessageController;
@@ -55,6 +56,10 @@ Route::get('/api/online-count', function () {
         'onlineCount'  => $onlineCount,
     ]);
 })->name('api.online-count');
+
+// HOUSEKEEPING-CONTROLLED NITRO LOADING SCREEN CONFIG
+Route::get('/api/client/loading-screen', [LoadingScreenController::class, 'publicConfig'])
+    ->name('api.client.loading-screen');
 
 // Permission Check Helper
 if (!function_exists('canAccessHkPermission')) {
@@ -716,6 +721,14 @@ Route::middleware(['maintenance', 'check.ban', 'force.staff.2fa'])->group(functi
                 $settings = DB::table('website_settings')->pluck('value', 'key')->toArray();
                 return view('housekeeping.settings', compact('settings'));
             })->name('housekeeping.settings');
+
+
+            // CLIENT LOADING SCREEN SETTINGS
+            Route::get('/loading-screen', [LoadingScreenController::class, 'index'])
+                ->name('housekeeping.loading-screen');
+
+            Route::post('/loading-screen', [LoadingScreenController::class, 'update'])
+                ->name('housekeeping.loading-screen.update');
 
             Route::match(['get', 'post'], '/permissions', function (\Illuminate\Http\Request $request) {
                 if (!canAccessHkPermission('manage_permissions')) return redirect('/housekeeping');

@@ -207,6 +207,11 @@
                                     <span>Site & Hotel Settings</span>
                                     <span class="font-mono text-zinc-500">&rarr;</span>
                                 </a>
+
+                                <a href="{{ url('/housekeeping/loading-screen') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
+                                    <span>Client Loading Screen</span>
+                                    <span class="font-mono text-zinc-500">&rarr;</span>
+                                </a>
                             @endif
                         </div>
                     </div>

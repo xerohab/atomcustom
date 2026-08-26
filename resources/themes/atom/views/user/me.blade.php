@@ -152,48 +152,69 @@
                     </div>
 
                     <!-- CLIENT LAUNCH OPTIONS -->
-                    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                    <div class="mt-4">
+                        <div class="mb-3">
+                            <div class="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-400">Choose how you want to play</div>
+                            <div class="text-[10px] sm:text-xs text-amber-100/60 mt-1">Pick your device and the hotel server you want to connect to.</div>
+                        </div>
 
-                        <!-- Desktop UK -->
-                        <a data-turbolinks="false"
-                           href="{{ route('nitro-client') }}?region=uk"
-                           class="w-full">
-                            <button type="button"
-                                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-900 to-blue-700 hover:from-blue-800 hover:to-blue-600 border border-blue-400/50 font-extrabold text-white text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
-                                🖥 Play UK Server &rarr;
-                            </button>
-                        </a>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                            <!-- Desktop UK -->
+                            <a data-turbolinks="false"
+                               href="{{ route('nitro-client') }}?region=uk"
+                               data-client-device="desktop"
+                               class="w-full group js-client-device-guard">
+                                <div class="w-full min-h-[62px] px-4 py-3 rounded-2xl bg-gradient-to-r from-blue-900 to-blue-700 hover:from-blue-800 hover:to-blue-600 border border-blue-400/50 text-white shadow-lg transform active:scale-95 transition flex items-center gap-3">
+                                    <svg class="h-5 w-7 shrink-0 rounded-sm shadow-sm" viewBox="0 0 60 36" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="36" fill="#012169"/><path d="M0 0L60 36M60 0L0 36" stroke="#fff" stroke-width="7"/><path d="M0 0L60 36M60 0L0 36" stroke="#C8102E" stroke-width="4"/><path d="M30 0v36M0 18h60" stroke="#fff" stroke-width="12"/><path d="M30 0v36M0 18h60" stroke="#C8102E" stroke-width="7"/></svg>
+                                    <span class="min-w-0 text-left">
+                                        <span class="block text-xs sm:text-sm font-black uppercase tracking-wide leading-tight">Play On Computer In UK</span>
+                                    </span>
+                                    <span class="ml-auto text-base opacity-80">&rarr;</span>
+                                </div>
+                            </a>
 
-                        <!-- Desktop USA -->
-                        <a data-turbolinks="false"
-                           href="{{ route('nitro-client') }}?region=usa"
-                           class="w-full">
-                            <button type="button"
-                                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-red-900 via-red-800 to-amber-700 hover:from-red-800 hover:to-amber-600 border border-amber-400/50 font-extrabold text-amber-100 text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
-                                🖥 Play USA Server &rarr;
-                            </button>
-                        </a>
+                            <!-- Desktop USA -->
+                            <a data-turbolinks="false"
+                               href="{{ route('nitro-client') }}?region=usa"
+                               data-client-device="desktop"
+                               class="w-full group js-client-device-guard">
+                                <div class="w-full min-h-[62px] px-4 py-3 rounded-2xl bg-gradient-to-r from-red-900 via-red-800 to-amber-700 hover:from-red-800 hover:to-amber-600 border border-amber-400/50 text-amber-50 shadow-lg transform active:scale-95 transition flex items-center gap-3">
+                                    <svg class="h-5 w-7 shrink-0 rounded-sm shadow-sm" viewBox="0 0 60 36" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="36" fill="#fff"/><g fill="#B22234"><rect y="0" width="60" height="3"/><rect y="6" width="60" height="3"/><rect y="12" width="60" height="3"/><rect y="18" width="60" height="3"/><rect y="24" width="60" height="3"/><rect y="30" width="60" height="3"/><rect y="33" width="60" height="3"/></g><rect width="27" height="19" fill="#3C3B6E"/><g fill="#fff"><circle cx="3" cy="3" r="1"/><circle cx="8" cy="3" r="1"/><circle cx="13" cy="3" r="1"/><circle cx="18" cy="3" r="1"/><circle cx="23" cy="3" r="1"/><circle cx="5.5" cy="7" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15.5" cy="7" r="1"/><circle cx="20.5" cy="7" r="1"/><circle cx="3" cy="11" r="1"/><circle cx="8" cy="11" r="1"/><circle cx="13" cy="11" r="1"/><circle cx="18" cy="11" r="1"/><circle cx="23" cy="11" r="1"/><circle cx="5.5" cy="15" r="1"/><circle cx="10.5" cy="15" r="1"/><circle cx="15.5" cy="15" r="1"/><circle cx="20.5" cy="15" r="1"/></g></svg>
+                                    <span class="min-w-0 text-left">
+                                        <span class="block text-xs sm:text-sm font-black uppercase tracking-wide leading-tight">Play On Computer In USA</span>
+                                    </span>
+                                    <span class="ml-auto text-base opacity-80">&rarr;</span>
+                                </div>
+                            </a>
 
-                        <!-- Mobile UK -->
-                        <a data-turbolinks="false"
-                           href="{{ route('nitro-client') }}?region=uk&mobile=1"
-                           class="w-full">
-                            <button type="button"
-                                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-900 to-emerald-700 hover:from-cyan-800 hover:to-emerald-600 border border-cyan-400/50 font-extrabold text-white text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
-                                📱 UK Mobile Client &rarr;
-                            </button>
-                        </a>
+                            <!-- Mobile UK -->
+                            <a data-turbolinks="false"
+                               href="{{ route('nitro-client') }}?region=uk&mobile=1"
+                               data-client-device="mobile"
+                               class="w-full group js-client-device-guard">
+                                <div class="w-full min-h-[62px] px-4 py-3 rounded-2xl bg-gradient-to-r from-cyan-900 to-emerald-700 hover:from-cyan-800 hover:to-emerald-600 border border-cyan-400/50 text-white shadow-lg transform active:scale-95 transition flex items-center gap-3">
+                                    <svg class="h-5 w-7 shrink-0 rounded-sm shadow-sm" viewBox="0 0 60 36" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="36" fill="#012169"/><path d="M0 0L60 36M60 0L0 36" stroke="#fff" stroke-width="7"/><path d="M0 0L60 36M60 0L0 36" stroke="#C8102E" stroke-width="4"/><path d="M30 0v36M0 18h60" stroke="#fff" stroke-width="12"/><path d="M30 0v36M0 18h60" stroke="#C8102E" stroke-width="7"/></svg>
+                                    <span class="min-w-0 text-left">
+                                        <span class="block text-xs sm:text-sm font-black uppercase tracking-wide leading-tight">Play On Phone In UK</span>
+                                    </span>
+                                    <span class="ml-auto text-base opacity-80">&rarr;</span>
+                                </div>
+                            </a>
 
-                        <!-- Mobile USA -->
-                        <a data-turbolinks="false"
-                           href="{{ route('nitro-client') }}?region=usa&mobile=1"
-                           class="w-full">
-                            <button type="button"
-                                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-900 to-pink-700 hover:from-purple-800 hover:to-pink-600 border border-pink-400/50 font-extrabold text-white text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
-                                📱 USA Mobile Client &rarr;
-                            </button>
-                        </a>
-
+                            <!-- Mobile USA -->
+                            <a data-turbolinks="false"
+                               href="{{ route('nitro-client') }}?region=usa&mobile=1"
+                               data-client-device="mobile"
+                               class="w-full group js-client-device-guard">
+                                <div class="w-full min-h-[62px] px-4 py-3 rounded-2xl bg-gradient-to-r from-purple-900 to-pink-700 hover:from-purple-800 hover:to-pink-600 border border-pink-400/50 text-white shadow-lg transform active:scale-95 transition flex items-center gap-3">
+                                    <svg class="h-5 w-7 shrink-0 rounded-sm shadow-sm" viewBox="0 0 60 36" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"><rect width="60" height="36" fill="#fff"/><g fill="#B22234"><rect y="0" width="60" height="3"/><rect y="6" width="60" height="3"/><rect y="12" width="60" height="3"/><rect y="18" width="60" height="3"/><rect y="24" width="60" height="3"/><rect y="30" width="60" height="3"/><rect y="33" width="60" height="3"/></g><rect width="27" height="19" fill="#3C3B6E"/><g fill="#fff"><circle cx="3" cy="3" r="1"/><circle cx="8" cy="3" r="1"/><circle cx="13" cy="3" r="1"/><circle cx="18" cy="3" r="1"/><circle cx="23" cy="3" r="1"/><circle cx="5.5" cy="7" r="1"/><circle cx="10.5" cy="7" r="1"/><circle cx="15.5" cy="7" r="1"/><circle cx="20.5" cy="7" r="1"/><circle cx="3" cy="11" r="1"/><circle cx="8" cy="11" r="1"/><circle cx="13" cy="11" r="1"/><circle cx="18" cy="11" r="1"/><circle cx="23" cy="11" r="1"/><circle cx="5.5" cy="15" r="1"/><circle cx="10.5" cy="15" r="1"/><circle cx="15.5" cy="15" r="1"/><circle cx="20.5" cy="15" r="1"/></g></svg>
+                                    <span class="min-w-0 text-left">
+                                        <span class="block text-xs sm:text-sm font-black uppercase tracking-wide leading-tight">Play On Phone In USA</span>
+                                    </span>
+                                    <span class="ml-auto text-base opacity-80">&rarr;</span>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
 
@@ -337,5 +358,87 @@
             });
         }
     </script>
+
+
+<!-- Client device guard -->
+<div id="client-device-warning" class="fixed inset-0 z-[99999] hidden items-center justify-center bg-black/80 p-4" role="dialog" aria-modal="true" aria-labelledby="client-device-warning-title">
+    <div class="w-full max-w-md rounded-3xl border-2 border-amber-500/50 bg-zinc-950 p-5 sm:p-6 shadow-2xl">
+        <div class="flex items-start justify-between gap-4">
+            <div>
+                <p class="text-xs font-black uppercase tracking-[0.2em] text-amber-500">Wrong client selected</p>
+                <h3 id="client-device-warning-title" class="mt-2 text-xl font-black text-white">Please use the correct client</h3>
+            </div>
+            <button type="button" id="client-device-warning-close" class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-amber-500/10 text-2xl font-bold text-amber-400 hover:bg-amber-500/20" aria-label="Close">&times;</button>
+        </div>
+        <p id="client-device-warning-message" class="mt-4 text-sm font-semibold leading-6 text-zinc-300"></p>
+        <button type="button" id="client-device-warning-ok" class="mt-5 w-full rounded-2xl border border-amber-400/50 bg-gradient-to-r from-amber-600 to-orange-600 px-4 py-3 text-sm font-black uppercase tracking-wide text-white shadow-lg hover:from-amber-500 hover:to-orange-500">
+            OK
+        </button>
+    </div>
+</div>
+
+<script>
+(() => {
+    const isMobileDevice = () => {
+        const ua = navigator.userAgent || navigator.vendor || window.opera || '';
+        const mobileUa = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|Mobile/i.test(ua);
+        const ipadOs = navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1;
+        return mobileUa || ipadOs;
+    };
+
+    const modal = document.getElementById('client-device-warning');
+    const message = document.getElementById('client-device-warning-message');
+    const closeButton = document.getElementById('client-device-warning-close');
+    const okButton = document.getElementById('client-device-warning-ok');
+
+    const hideWarning = () => {
+        modal?.classList.add('hidden');
+        modal?.classList.remove('flex');
+    };
+
+    const showWarning = (text) => {
+        if (!modal || !message) {
+            window.alert(text);
+            return;
+        }
+
+        message.textContent = text;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        okButton?.focus();
+    };
+
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest('.js-client-device-guard');
+        if (!link) return;
+
+        const requiredDevice = link.dataset.clientDevice;
+        const mobile = isMobileDevice();
+
+        if (requiredDevice === 'mobile' && !mobile) {
+            event.preventDefault();
+            event.stopPropagation();
+            showWarning('This client is designed for phones and tablets. Please use Play On Computer instead.');
+            return;
+        }
+
+        if (requiredDevice === 'desktop' && mobile) {
+            event.preventDefault();
+            event.stopPropagation();
+            showWarning('This client is designed for desktop and laptop computers. Please use Play On Phone instead.');
+        }
+    }, true);
+
+    closeButton?.addEventListener('click', hideWarning);
+    okButton?.addEventListener('click', hideWarning);
+    modal?.addEventListener('click', (event) => {
+        if (event.target === modal) hideWarning();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') hideWarning();
+    });
+})();
+</script>
+
 </body>
 </html>
