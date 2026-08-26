@@ -58,22 +58,22 @@
         @include('components.navigation.navigation-menu')
 
         <!-- MAIN CONTAINER -->
-        <main class="max-w-7xl mx-auto px-4 py-8 space-y-6">
+        <main class="max-w-7xl mx-auto px-3 sm:px-4 py-4 sm:py-8 space-y-4 sm:space-y-6">
 
             <!-- TOP HERO SECTION (PROFILE & NEWS SLIDER) -->
-            <div class="grid grid-cols-12 gap-6 items-stretch">
+            <div class="grid grid-cols-12 gap-4 sm:gap-6 items-stretch">
 
                 <!-- LEFT PROFILE HERO CARD -->
-                <div class="col-span-12 lg:col-span-7 bg-zinc-900/90 backdrop-blur-md border-2 border-amber-500/40 rounded-3xl p-6 shadow-2xl flex flex-col justify-between">
+                <div class="col-span-12 lg:col-span-7 bg-zinc-900/90 backdrop-blur-md border-2 border-amber-500/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
                     <div>
-                        <div class="flex items-center gap-4">
-                            <div class="h-28 w-24 flex items-center justify-center rounded-2xl bg-black/60 border border-amber-500/40 shadow-inner p-2 relative overflow-hidden flex-shrink-0">
+                        <div class="flex flex-col min-[430px]:flex-row min-[430px]:items-center gap-3 sm:gap-4">
+                            <div class="h-24 w-20 sm:h-28 sm:w-24 flex items-center justify-center rounded-2xl bg-black/60 border border-amber-500/40 shadow-inner p-2 relative overflow-hidden flex-shrink-0">
                                 <img src="{{ setting('avatar_imager') }}{{ auth()->user()->look }}&direction=2&head_direction=3&gesture=sml&action=wav&size=l"
                                      alt="Avatar" class="-mt-4 drop-shadow-lg" style="image-rendering: pixelated;">
                             </div>
 
                             <div class="space-y-1 w-full">
-                                <div class="flex justify-between items-center">
+                                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2">
                                     <span class="text-xs font-bold uppercase tracking-wider text-amber-200/60">Welcome back,</span>
 
                                     <!-- EDIT PROFILE / DISCORD LINK BUTTON -->
@@ -85,7 +85,7 @@
                                     </a>
                                 </div>
 
-                                <h1 class="text-3xl font-extrabold text-amber-400">{{ auth()->user()->username }}</h1>
+                                <h1 class="text-2xl sm:text-3xl font-extrabold text-amber-400 break-words">{{ auth()->user()->username }}</h1>
 
                                 <!-- Motto Display Box -->
                                 <div class="pt-1">
@@ -97,7 +97,7 @@
                         </div>
 
                         <!-- STATS GRID (Joined, Respects, Achievement Score) -->
-                        <div class="grid grid-cols-3 gap-3 mt-6">
+                        <div class="grid grid-cols-1 min-[430px]:grid-cols-3 gap-2 sm:gap-3 mt-4 sm:mt-6">
                             <div class="bg-black/50 border border-amber-500/30 rounded-2xl p-3 text-center">
                                 <span class="block text-[10px] font-bold uppercase tracking-wider text-amber-200/60">Joined</span>
                                 <span class="text-xs font-bold text-white mt-1 block">
@@ -119,9 +119,9 @@
                         </div>
 
                         <!-- CURRENCIES ROW (Credits, Duckets, Diamonds) -->
-                        <div class="grid grid-cols-3 gap-3 mt-4">
+                        <div class="grid grid-cols-1 min-[430px]:grid-cols-3 gap-2 sm:gap-3 mt-4">
                             <!-- Credits -->
-                            <div class="bg-red-950/60 border border-amber-500/40 rounded-2xl p-3 flex items-center gap-3">
+                            <div class="bg-red-950/60 border border-amber-500/40 rounded-2xl p-3 flex items-center gap-3 min-w-0">
                                 <img src="https://loungehotel.org/assets/images/profile/credits.png" alt="Credits" class="h-6 w-auto">
                                 <div>
                                     <div class="text-sm font-black text-amber-400">{{ number_format(auth()->user()->credits ?? 0) }}</div>
@@ -130,7 +130,7 @@
                             </div>
 
                             <!-- Duckets / Pixels -->
-                            <div class="bg-red-950/60 border border-amber-500/40 rounded-2xl p-3 flex items-center gap-3">
+                            <div class="bg-red-950/60 border border-amber-500/40 rounded-2xl p-3 flex items-center gap-3 min-w-0">
                                 <img src="https://loungehotel.org/assets/images/profile/duckets.png" alt="Duckets" class="h-6 w-auto">
                                 <div>
                                     <div class="text-sm font-black text-amber-400">{{ number_format(auth()->user()->currency('duckets') ?? 0) }}</div>
@@ -139,7 +139,7 @@
                             </div>
 
                             <!-- Diamonds -->
-                            <div class="bg-red-950/60 border border-amber-500/40 rounded-2xl p-3 flex items-center gap-3">
+                            <div class="bg-red-950/60 border border-amber-500/40 rounded-2xl p-3 flex items-center gap-3 min-w-0">
                                 <img src="https://loungehotel.org/assets/images/profile/diamonds.png" alt="Diamonds" class="h-6 w-auto">
                                 <div>
                                     <div class="text-sm font-black text-amber-400">
@@ -151,23 +151,54 @@
                         </div>
                     </div>
 
-                    <!-- PLAY BUTTONS BANNER -->
-                    <div class="mt-4 flex flex-col sm:flex-row gap-3">
-                        <a data-turbolinks="false" href="{{ route('nitro-client') }}?region=uk" class="w-full">
-                            <button type="button" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-900 to-blue-700 hover:from-blue-800 hover:to-blue-600 border border-blue-400/50 font-extrabold text-white text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
-                                Play UK Server &rarr;
+                    <!-- CLIENT LAUNCH OPTIONS -->
+                    <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+
+                        <!-- Desktop UK -->
+                        <a data-turbolinks="false"
+                           href="{{ route('nitro-client') }}?region=uk"
+                           class="w-full">
+                            <button type="button"
+                                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-900 to-blue-700 hover:from-blue-800 hover:to-blue-600 border border-blue-400/50 font-extrabold text-white text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
+                                🖥 Play UK Server &rarr;
                             </button>
                         </a>
-                        <a data-turbolinks="false" href="{{ route('nitro-client') }}?region=usa" class="w-full">
-                            <button type="button" class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-red-900 via-red-800 to-amber-700 hover:from-red-800 hover:to-amber-600 border border-amber-400/50 font-extrabold text-amber-100 text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
-                                Play USA Server &rarr;
+
+                        <!-- Desktop USA -->
+                        <a data-turbolinks="false"
+                           href="{{ route('nitro-client') }}?region=usa"
+                           class="w-full">
+                            <button type="button"
+                                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-red-900 via-red-800 to-amber-700 hover:from-red-800 hover:to-amber-600 border border-amber-400/50 font-extrabold text-amber-100 text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
+                                🖥 Play USA Server &rarr;
                             </button>
                         </a>
+
+                        <!-- Mobile UK -->
+                        <a data-turbolinks="false"
+                           href="{{ route('nitro-client') }}?region=uk&mobile=1"
+                           class="w-full">
+                            <button type="button"
+                                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-cyan-900 to-emerald-700 hover:from-cyan-800 hover:to-emerald-600 border border-cyan-400/50 font-extrabold text-white text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
+                                📱 UK Mobile Client &rarr;
+                            </button>
+                        </a>
+
+                        <!-- Mobile USA -->
+                        <a data-turbolinks="false"
+                           href="{{ route('nitro-client') }}?region=usa&mobile=1"
+                           class="w-full">
+                            <button type="button"
+                                class="w-full py-3.5 rounded-2xl bg-gradient-to-r from-purple-900 to-pink-700 hover:from-purple-800 hover:to-pink-600 border border-pink-400/50 font-extrabold text-white text-xs uppercase tracking-wider shadow-lg transform active:scale-95 transition">
+                                📱 USA Mobile Client &rarr;
+                            </button>
+                        </a>
+
                     </div>
                 </div>
 
                 <!-- RIGHT NEWS SLIDER CARD -->
-                <div class="col-span-12 lg:col-span-5 bg-zinc-900/90 backdrop-blur-md border-2 border-amber-500/40 rounded-3xl p-6 shadow-2xl flex flex-col justify-between">
+                <div class="col-span-12 lg:col-span-5 bg-zinc-900/90 backdrop-blur-md border-2 border-amber-500/40 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl flex flex-col justify-between">
                     <div class="flex items-center justify-between border-b border-amber-500/20 pb-3 mb-4">
                         <h2 class="text-sm font-extrabold text-amber-400 uppercase tracking-wide">Latest News</h2>
                         <a href="{{ url('/community/articles') }}" class="text-xs font-bold text-amber-400 hover:underline">All news &rarr;</a>
@@ -199,10 +230,10 @@
             </div>
 
             <!-- BOTTOM SECTION: ONLINE FRIENDS & REFERRALS -->
-            <div class="grid grid-cols-12 gap-6">
+            <div class="grid grid-cols-12 gap-4 sm:gap-6">
 
                 <!-- ONLINE FRIENDS -->
-                <div class="col-span-12 lg:col-span-6 bg-zinc-900/90 backdrop-blur-md border border-amber-500/30 rounded-3xl p-6 shadow-xl">
+                <div class="col-span-12 lg:col-span-6 bg-zinc-900/90 backdrop-blur-md border border-amber-500/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl">
                     <h2 class="text-sm font-extrabold text-amber-400 uppercase tracking-wide border-b border-amber-500/20 pb-3 mb-4">
                         Online Friends ({{ count($onlineFriends ?? []) }})
                     </h2>
@@ -223,8 +254,8 @@
                 </div>
 
                 <!-- REFERRALS -->
-                <div class="col-span-12 lg:col-span-6 bg-zinc-900/90 backdrop-blur-md border border-amber-500/30 rounded-3xl p-6 shadow-xl space-y-3">
-                    <div class="flex justify-between items-center border-b border-amber-500/20 pb-3">
+                <div class="col-span-12 lg:col-span-6 bg-zinc-900/90 backdrop-blur-md border border-amber-500/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl space-y-3">
+                    <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 border-b border-amber-500/20 pb-3">
                         <h2 class="text-sm font-extrabold text-amber-400 uppercase tracking-wide">
                             Invite friends. Earn rewards!
                         </h2>
@@ -259,13 +290,13 @@
 
             <!-- PHOTOS FEED SECTION -->
             @if(isset($photos) && count($photos) > 0)
-                <div class="bg-zinc-900/90 backdrop-blur-md border border-amber-500/30 rounded-3xl p-6 shadow-xl">
+                <div class="bg-zinc-900/90 backdrop-blur-md border border-amber-500/30 rounded-2xl sm:rounded-3xl p-4 sm:p-6 shadow-xl">
                     <div class="flex justify-between items-center border-b border-amber-500/20 pb-3 mb-4">
                         <h2 class="text-sm font-extrabold text-amber-400 uppercase tracking-wide">Hotel Moments</h2>
                         <a href="{{ url('/community/photos') }}" class="text-xs font-bold text-amber-400 hover:underline">View all photos &rarr;</a>
                     </div>
 
-                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-2 sm:gap-3">
                         @foreach($photos->take(5) as $photo)
                             <div class="h-28 rounded-2xl overflow-hidden border border-amber-500/20 bg-black/50 shadow-inner group relative">
                                 <img src="{{ $photo->url }}" alt="Camera Photo" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">

@@ -1,5 +1,5 @@
-<div class="max-w-7xl min-h-[60px] px-4 md:flex md:items-center md:justify-between md:mx-auto">
-    <div class="flex gap-x-6">
+<div class="max-w-7xl min-h-[60px] px-3 sm:px-4 py-2 md:py-0 md:flex md:items-center md:justify-between md:mx-auto">
+    <div class="grid grid-cols-3 gap-2 sm:flex sm:gap-x-6 min-w-0">
         <x-top-header-currency icon="nav-credit-icon">
             <x-slot:currency>
                 {{ auth()->user()->credits }}
@@ -25,7 +25,7 @@
         </x-top-header-currency>
     </div>
 
-    <div class="flex gap-x-3">
+    <div class="mt-2 md:mt-0 flex items-center justify-end gap-x-2 sm:gap-x-3">
         @if(hasPermission('view_server_logs') || hasPermission('housekeeping_access') || hasPermission('generate_logo'))
             <x-navigation.dropdown classes="!text-red-700 !border-none">
                 {{ __('Administration') }}

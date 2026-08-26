@@ -65,7 +65,7 @@
 
         {{-- Content --}}
         <main class="overflow-hidden site-bg">
-            <div class="mx-auto mt-10 grid max-w-7xl grid-cols-12 gap-x-3 gap-y-8 p-6 md:mt-0">
+            <div class="mx-auto mt-4 md:mt-0 grid max-w-7xl grid-cols-12 gap-x-3 gap-y-5 md:gap-y-8 p-3 sm:p-4 md:p-6">
                 {{ $slot }}
             </div>
         </main>

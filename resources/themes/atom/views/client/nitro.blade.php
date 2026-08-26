@@ -117,6 +117,10 @@
             proxyUsa: "wss://us.proxypanel.co.uk:1000"
         };
 
+        // CLIENT MODE
+        const pageParams = new URLSearchParams(window.location.search);
+        const mobileMode = pageParams.get('mobile') === '1';
+
         // SWITCH SERVER LOGIC
         function switchServer(region) {
             localStorage.setItem('nitro_region', region);
@@ -135,13 +139,33 @@
 
             // Set iframe src
             const iframe = document.getElementById('nitro');
-            const targetSrc = `${CONFIG.basePath}/index.html?sso=${CONFIG.sso}&ip=${selectedIp}`;
+
+            const clientParams = new URLSearchParams({
+                sso: CONFIG.sso,
+                ip: selectedIp
+            });
+
+            if (mobileMode) {
+                clientParams.set('mobile', '1');
+            }
+
+            const targetSrc = `${CONFIG.basePath}/index.html?${clientParams.toString()}`;
 
             if (iframe.src !== targetSrc) {
                 iframe.src = targetSrc;
             }
 
-            window.history.replaceState({}, document.title, window.location.pathname);
+            // Preserve both region and client mode in the address bar
+            const pageUrl = new URL(window.location.href);
+            pageUrl.searchParams.set('region', region);
+
+            if (mobileMode) {
+                pageUrl.searchParams.set('mobile', '1');
+            } else {
+                pageUrl.searchParams.delete('mobile');
+            }
+
+            window.history.replaceState({}, document.title, pageUrl.pathname + pageUrl.search);
         }
 
         function toggleFullscreen() {
