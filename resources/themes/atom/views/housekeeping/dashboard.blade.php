@@ -94,124 +94,114 @@
             @endif
 
             <!-- CATEGORIZED MODULE GRID -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
 
-                <!-- USER & MODERATION SUITE -->
-                <div class="bg-zinc-900/90 border border-amber-500/30 rounded-3xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+                <!-- USER MANAGEMENT -->
+                <div class="bg-zinc-900/90 border border-amber-500/30 rounded-3xl p-6 space-y-4 shadow-xl">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
-                            <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">User & Moderation</h2>
+                            <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">User Management</h2>
                             <img src="https://loungehotel.org/assets/images/icons/credits.png" class="h-4 w-4 object-contain" alt="">
                         </div>
-                        <p class="text-[11px] text-zinc-400 leading-relaxed">Manage user credentials, balances, furniture, punishments, and audit game dialogue.</p>
-
+                        <p class="text-[11px] text-zinc-400 leading-relaxed">Manage accounts, currencies, owned furniture, support tickets, and user punishments.</p>
                         <div class="space-y-2 pt-1">
                             @if(canAccessHkPermission('manage_users'))
-                                <a href="{{ url('/housekeeping/users') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Users, Currencies & Furni</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                                <a href="{{ url('/housekeeping/users') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Users, Currencies & Furni</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
-
                             @if(canAccessHkPermission('manage_tickets'))
-                                <a href="{{ url('/housekeeping/tickets') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Help Center Tickets Manager</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                                <a href="{{ url('/housekeeping/tickets') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Help Center Tickets Manager</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
-
                             @if(canAccessHkPermission('manage_bans'))
-                                <a href="{{ url('/housekeeping/bans') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Ban Center (Account, IP & Machine)</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                                <a href="{{ url('/housekeeping/bans') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Ban Center (Account, IP & Machine)</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
 
-                            @if(canAccessHkPermission('manage_logs'))
-                                <a href="{{ url('/housekeeping/chatlogs') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Chatlogs Auditor (Public & Private)</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                            @if(canAccessHkPermission('manage_sanction_bots'))
+                                <a href="{{ route('housekeeping.sanction-bots') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Sanction Bot Manager</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
                         </div>
                     </div>
                 </div>
 
-                <!-- CONTENT & COMMERCE -->
-                <div class="bg-zinc-900/90 border border-amber-500/30 rounded-3xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+                <!-- FURNITURE & CATALOG -->
+                <div class="bg-zinc-900/90 border border-amber-500/30 rounded-3xl p-6 space-y-4 shadow-xl">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
-                            <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">Content & Shop</h2>
+                            <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">Furniture & Catalog</h2>
                             <img src="https://loungehotel.org/assets/images/icons/diamonds.png" class="h-4 w-4 object-contain" alt="">
                         </div>
-                        <p class="text-[11px] text-zinc-400 leading-relaxed">Publish news articles, update web catalog packages, badges, and pricing tiers.</p>
-
+                        <p class="text-[11px] text-zinc-400 leading-relaxed">Upload furniture, sync missing HabboFurni API furniture, correct furniture display names, and manage web shop packages and badges.</p>
                         <div class="space-y-2 pt-1">
-                            @if(canAccessHkPermission('create_article'))
-                                <a href="{{ url('/housekeeping/articles/create') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>+ Create News Article</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                            @if(canAccessHkPermission('manage_furniture_uploader'))
+                                <a href="{{ route('housekeeping.furniture-uploader') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Furniture Uploader</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
 
-                            @if(canAccessHkPermission('edit_article'))
-                                <a href="{{ url('/housekeeping/articles') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Manage Articles & Banners</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                            @if(canAccessHkPermission('manage_furniture_uploader'))
+                                <a href="{{ route('housekeeping.swf-nitro-converter') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>SWF → Nitro Converter</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
 
+                            @if(canAccessHkPermission('manage_clothing_uploader'))
+                                <a href="{{ route('housekeeping.clothing-uploader') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Clothing Uploader</span><span class="font-mono text-zinc-500">&rarr;</span></a>
+                            @endif
+
+                            @if(canAccessHkPermission('manage_furniture_uploader'))
+                                <a href="{{ route('housekeeping.clothing-manager') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Clothing Library Manager</span><span class="font-mono text-zinc-500">&rarr;</span></a>
+                            @endif
+                            @if(canAccessHkPermission('manage_furniture_uploader'))
+                                <a href="{{ route('housekeeping.furniture-name-editor') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Furniture Name Editor</span><span class="font-mono text-zinc-500">&rarr;</span></a>
+                            @endif
+                            @if(canAccessHkPermission('manage_furniture_uploader'))
+                                <a href="{{ route('housekeeping.habbo-furni-api') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>HabboFurni API Sync</span><span class="font-mono text-zinc-500">&rarr;</span></a>
+                            @endif
                             @if(canAccessHkPermission('manage_shop'))
-                                <a href="{{ url('/housekeeping/shop') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Web Shop Packages & Badges</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                                <a href="{{ url('/housekeeping/shop') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Web Shop Packages & Badges</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
                         </div>
                     </div>
                 </div>
 
-                <!-- SYSTEM & SECURITY -->
-                <div class="bg-zinc-900/90 border border-amber-500/30 rounded-3xl p-6 space-y-4 shadow-xl flex flex-col justify-between">
+                <!-- CONTENT & COMMUNICATION -->
+                <div class="bg-zinc-900/90 border border-amber-500/30 rounded-3xl p-6 space-y-4 shadow-xl">
                     <div class="space-y-3">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
-                            <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">System Controls</h2>
+                            <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">Content & Communication</h2>
                             <img src="https://loungehotel.org/assets/images/icons/duckets.png" class="h-4 w-4 object-contain" alt="">
                         </div>
-                        <p class="text-[11px] text-zinc-400 leading-relaxed">Review staff notices, incoming applications, permissions, and hotel settings.</p>
-
+                        <p class="text-[11px] text-zinc-400 leading-relaxed">Publish hotel news, manage existing articles, review chat history, and communicate with staff.</p>
                         <div class="space-y-2 pt-1">
+                            @if(canAccessHkPermission('create_article'))
+                                <a href="{{ url('/housekeeping/articles/create') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>+ Create News Article</span><span class="font-mono text-zinc-500">&rarr;</span></a>
+                            @endif
+                            @if(canAccessHkPermission('edit_article'))
+                                <a href="{{ url('/housekeeping/articles') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Manage Articles & Banners</span><span class="font-mono text-zinc-500">&rarr;</span></a>
+                            @endif
+                            @if(canAccessHkPermission('manage_logs'))
+                                <a href="{{ url('/housekeeping/chatlogs') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Chatlogs Auditor (Public & Private)</span><span class="font-mono text-zinc-500">&rarr;</span></a>
+                            @endif
                             @if(canAccessHkPermission('manage_noticeboard'))
-                                <a href="{{ url('/housekeeping/notices') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Staff Noticeboard</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                                <a href="{{ url('/housekeeping/notices') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Staff Noticeboard</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
+                        </div>
+                    </div>
+                </div>
 
+                <!-- SYSTEM & STAFF -->
+                <div class="bg-zinc-900/90 border border-amber-500/30 rounded-3xl p-6 space-y-4 shadow-xl">
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
+                            <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">System & Staff</h2>
+                            <img src="https://loungehotel.org/assets/images/icons/duckets.png" class="h-4 w-4 object-contain" alt="">
+                        </div>
+                        <p class="text-[11px] text-zinc-400 leading-relaxed">Manage staff applications and permissions, hotel settings, and client presentation options.</p>
+                        <div class="space-y-2 pt-1">
                             @if(canAccessHkPermission('manage_applications'))
-                                <a href="{{ url('/housekeeping/applications') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Staff Applications</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                                <a href="{{ url('/housekeeping/applications') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Staff Applications</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
-
                             @if(canAccessHkPermission('manage_permissions'))
-                                <a href="{{ url('/housekeeping/permissions') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>ASE Staff Permissions</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                                <a href="{{ url('/housekeeping/permissions') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>ASE Staff Permissions</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
-
                             @if(canAccessHkPermission('manage_settings'))
-                                <a href="{{ url('/housekeeping/settings') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Site & Hotel Settings</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
-
-                                <a href="{{ url('/housekeeping/loading-screen') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
-                                    <span>Client Loading Screen</span>
-                                    <span class="font-mono text-zinc-500">&rarr;</span>
-                                </a>
+                                <a href="{{ url('/housekeeping/settings') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Site & Hotel Settings</span><span class="font-mono text-zinc-500">&rarr;</span></a>
+                                <a href="{{ url('/housekeeping/loading-screen') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between"><span>Client Loading Screen</span><span class="font-mono text-zinc-500">&rarr;</span></a>
                             @endif
                         </div>
                     </div>

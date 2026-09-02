@@ -1,0 +1,294 @@
+<?php
+
+namespace App\Http\Controllers\Housekeeping;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
+
+class FurnitureUploaderController extends Controller
+{
+    private const PERMISSION = 'manage_furniture_uploader';
+    private const MAX_FILES = 100;
+    private const MAX_FILE_KB = 16384;
+
+    private function guard(): void
+    {
+        $perm = DB::table('housekeeping_permissions')->where('permission', self::PERMISSION)->first();
+        $minRank = $perm ? (int) $perm->min_rank : 6;
+        abort_unless(auth()->check() && (int) auth()->user()->rank >= $minRank, 403);
+    }
+
+    private function ensureInstalled(): void
+    {
+        if (!Schema::hasTable('furni_upload_batches') || !Schema::hasTable('furni_uploads')) {
+            abort(503, 'Furniture uploader tables are not installed. Run database/sql/furniture-uploader.sql first.');
+        }
+    }
+
+    public function index(Request $request)
+    {
+        $this->guard();
+        $this->ensureInstalled();
+
+        $pages = DB::table('catalog_pages')
+            ->select('id', 'parent_id', 'caption', 'min_rank', 'visible', 'enabled')
+            ->where('enabled', '1')
+            ->orderBy('caption')
+            ->orderBy('id')
+            ->get();
+
+        $recentBatches = DB::table('furni_upload_batches')
+            ->where('user_id', auth()->id())
+            ->orderByDesc('id')
+            ->limit(12)
+            ->get();
+
+        $selectedBatch = null;
+        $jobs = collect();
+        if ($request->filled('batch')) {
+            $selectedBatch = DB::table('furni_upload_batches')
+                ->where('id', (int) $request->input('batch'))
+                ->first();
+            if ($selectedBatch) {
+                $jobs = DB::table('furni_uploads')->where('batch_id', $selectedBatch->id)->orderBy('id')->get();
+            }
+        }
+
+        return view('housekeeping.furniture-uploader', compact('pages', 'recentBatches', 'selectedBatch', 'jobs'));
+    }
+
+    public function store(Request $request)
+    {
+        $this->guard();
+        $this->ensureInstalled();
+
+        $request->validate([
+            'furniture' => 'required|array|min:1|max:' . self::MAX_FILES,
+            'furniture.*' => 'required|file|max:' . self::MAX_FILE_KB,
+            'icons' => 'nullable|array|max:' . self::MAX_FILES,
+            'icons.*' => 'nullable|file|mimes:png|max:2048',
+            'target_mode' => 'required|in:existing,new',
+            'existing_page_id' => 'nullable|integer',
+            'new_page_caption' => 'nullable|string|max:128',
+            'new_page_parent_id' => 'nullable|integer',
+            'new_page_min_rank' => 'nullable|integer|min:1|max:10',
+            'price_credits' => 'required|integer|min:0|max:2147483647',
+            'price_points' => 'required|integer|min:0|max:2147483647',
+            'points_type' => 'required|integer|min:0|max:2147483647',
+            'amount' => 'required|integer|min:1|max:1000',
+            'kind' => 'required|in:s,i',
+            'width' => 'required|integer|min:0|max:20',
+            'length' => 'required|integer|min:0|max:20',
+            'stack_height' => 'required|numeric|min:0|max:50',
+            'allow_stack' => 'nullable|boolean',
+            'allow_sit' => 'nullable|boolean',
+            'allow_lay' => 'nullable|boolean',
+            'allow_walk' => 'nullable|boolean',
+            'icon_mode' => 'required|in:auto,upload,none',
+            'give_inventory' => 'nullable|boolean',
+            'class_names' => 'nullable|array',
+            'display_names' => 'nullable|array',
+        ]);
+
+        $furniture = $request->file('furniture', []);
+        if (count($furniture) > self::MAX_FILES) {
+            throw ValidationException::withMessages(['furniture' => 'Too many files in one batch.']);
+        }
+
+        $inbox = rtrim(env('FURNI_UPLOAD_INBOX', storage_path('app/furniture-uploader/inbox')), '/');
+        if (!is_dir($inbox) && !mkdir($inbox, 0770, true) && !is_dir($inbox)) {
+            abort(500, 'Could not create furniture uploader inbox.');
+        }
+
+        $iconFiles = [];
+        foreach ($request->file('icons', []) as $icon) {
+            if (!$icon) continue;
+            $base = strtolower(pathinfo($icon->getClientOriginalName(), PATHINFO_FILENAME));
+            $iconFiles[$base] = $icon;
+        }
+
+        // Validate every furniture file before moving the first one into the inbox.
+        $prepared = [];
+        foreach ($furniture as $index => $file) {
+            $source = $this->detectFileType($file->getRealPath());
+            if (!$source) {
+                throw ValidationException::withMessages([
+                    'furniture.' . $index => $file->getClientOriginalName() . ' is not a recognised SWF or Nitro bundle.',
+                ]);
+            }
+            $originalBase = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+            $requestedClass = trim((string) ($request->input("class_names.$index") ?: $originalBase));
+            $className = preg_replace('/[^A-Za-z0-9_]/', '_', $requestedClass);
+            if (!preg_match('/^[A-Za-z][A-Za-z0-9_]{2,69}$/', $className)) {
+                throw ValidationException::withMessages(['class_names.' . $index => "Invalid class name for {$file->getClientOriginalName()}: {$className}"]);
+            }
+            $prepared[$index] = compact('source', 'originalBase', 'className');
+        }
+
+        $movedPaths = [];
+        try {
+        $batchId = DB::transaction(function () use ($request, $furniture, $iconFiles, $inbox, $prepared, &$movedPaths) {
+            $targetPage = $this->resolveTargetPage($request);
+
+            $batchId = DB::table('furni_upload_batches')->insertGetId([
+                'user_id' => auth()->id(),
+                'username' => (string) auth()->user()->username,
+                'target_page_id' => $targetPage,
+                'target_page_caption' => (string) DB::table('catalog_pages')->where('id', $targetPage)->value('caption'),
+                'file_count' => count($furniture),
+                'created_at' => now(),
+            ]);
+
+            foreach ($furniture as $index => $file) {
+                $source = $prepared[$index]['source'];
+                $originalBase = $prepared[$index]['originalBase'];
+                $className = $prepared[$index]['className'];
+                $originalName = $file->getClientOriginalName();
+                $displayName = trim((string) ($request->input("display_names.$index") ?: str_replace('_', ' ', $className)));
+                $storedAs = Str::uuid()->toString() . '.' . $source;
+                $file->move($inbox, $storedAs);
+                $movedPaths[] = $inbox . '/' . $storedAs;
+
+                $iconStoredAs = null;
+                if ($request->input('icon_mode') === 'upload') {
+                    $match = strtolower($originalBase);
+                    if (isset($iconFiles[$match])) {
+                        $iconStoredAs = Str::uuid()->toString() . '.png';
+                        $iconFiles[$match]->move($inbox, $iconStoredAs);
+                        $movedPaths[] = $inbox . '/' . $iconStoredAs;
+                    }
+                }
+
+                DB::table('furni_uploads')->insert([
+                    'batch_id' => $batchId,
+                    'user_id' => auth()->id(),
+                    'username' => (string) auth()->user()->username,
+                    'original_name' => $originalName,
+                    'class_name' => $className,
+                    'display_name' => mb_substr($displayName, 0, 120),
+                    'description' => '',
+                    'kind' => $request->input('kind'),
+                    'width' => (int) $request->input('width'),
+                    'length' => (int) $request->input('length'),
+                    'stack_height' => (float) $request->input('stack_height'),
+                    'allow_stack' => $request->boolean('allow_stack'),
+                    'allow_sit' => $request->boolean('allow_sit'),
+                    'allow_lay' => $request->boolean('allow_lay'),
+                    'allow_walk' => $request->boolean('allow_walk'),
+                    'catalog_page' => $targetPage,
+                    'price_credits' => (int) $request->input('price_credits'),
+                    'price_points' => (int) $request->input('price_points'),
+                    'points_type' => (int) $request->input('points_type'),
+                    'amount' => (int) $request->input('amount'),
+                    'give_inventory' => $request->boolean('give_inventory'),
+                    'icon_mode' => $request->input('icon_mode'),
+                    'icon_stored_as' => $iconStoredAs,
+                    'stored_as' => $storedAs,
+                    'source' => $source,
+                    'status' => 'waiting',
+                    'created_at' => now(),
+                ]);
+            }
+
+            return $batchId;
+        });
+        } catch (\Throwable $e) {
+            foreach ($movedPaths as $path) {
+                if (is_file($path)) @unlink($path);
+            }
+            throw $e;
+        }
+
+        return redirect()->route('housekeeping.furniture-uploader', ['batch' => $batchId])
+            ->with('success', 'Furniture batch queued. The worker will convert/install each item automatically.');
+    }
+
+    public function batchStatus(int $batch)
+    {
+        $this->guard();
+        $this->ensureInstalled();
+
+        $jobs = DB::table('furni_uploads')
+            ->where('batch_id', $batch)
+            ->orderBy('id')
+            ->get(['id','original_name','class_name','status','message','assigned_id','catalog_item_id','catalog_page','finished_at']);
+
+        return response()->json(['jobs' => $jobs]);
+    }
+
+    private function resolveTargetPage(Request $request): int
+    {
+        if ($request->input('target_mode') === 'existing') {
+            $page = (int) $request->input('existing_page_id');
+            if (!$page || !DB::table('catalog_pages')->where('id', $page)->exists()) {
+                throw ValidationException::withMessages(['existing_page_id' => 'Choose a valid catalogue page.']);
+            }
+            return $page;
+        }
+
+        $caption = trim((string) $request->input('new_page_caption'));
+        $parentId = (int) $request->input('new_page_parent_id');
+        if ($caption === '' || !$parentId || !DB::table('catalog_pages')->where('id', $parentId)->exists()) {
+            throw ValidationException::withMessages(['new_page_caption' => 'New page name and a valid parent page are required.']);
+        }
+
+        // Serialize page-id allocation to avoid two simultaneous uploads choosing the same MAX(id)+1.
+        DB::select("SELECT GET_LOCK('atom.furniture.page_allocator', 10) AS got_lock");
+        try {
+            $nextId = (int) DB::table('catalog_pages')->max('id') + 1;
+            while (DB::table('catalog_pages')->where('id', $nextId)->exists()) $nextId++;
+
+            $order = (int) DB::table('catalog_pages')->where('parent_id', $parentId)->max('order_num') + 1;
+            DB::table('catalog_pages')->insert([
+                'id' => $nextId,
+                'parent_id' => $parentId,
+                'caption_save' => mb_substr(Str::slug($caption, '_'), 0, 25),
+                'caption' => mb_substr($caption, 0, 128),
+                'page_layout' => 'default_3x3',
+                'icon_color' => 0,
+                'icon_image' => 1,
+                'min_rank' => (int) ($request->input('new_page_min_rank') ?: 1),
+                'order_num' => $order,
+                'visible' => '1',
+                'enabled' => '1',
+                'club_only' => '0',
+                'vip_only' => '0',
+                'page_headline' => '',
+                'page_teaser' => '',
+                'page_special' => '',
+                'page_text1' => '',
+                'page_text2' => '',
+                'page_text_details' => '',
+                'page_text_teaser' => '',
+                'room_id' => 0,
+                'includes' => '',
+                'catalog_mode' => 'NORMAL',
+            ]);
+            return $nextId;
+        } finally {
+            DB::select("SELECT RELEASE_LOCK('atom.furniture.page_allocator')");
+        }
+    }
+
+    private function detectFileType(string $path): ?string
+    {
+        $fh = fopen($path, 'rb');
+        if (!$fh) return null;
+        $head = fread($fh, 256);
+        fclose($fh);
+
+        if (strlen($head) >= 3 && in_array(substr($head, 0, 3), ['FWS','CWS','ZWS'], true)) return 'swf';
+        if (strlen($head) >= 8) {
+            $v = unpack('ncount/nlength', substr($head, 0, 4));
+            if ($v && $v['count'] >= 1 && $v['count'] <= 2000 && $v['length'] >= 1 && $v['length'] <= 200 && strlen($head) >= 4 + $v['length']) {
+                $name = substr($head, 4, $v['length']);
+                if (preg_match('/^[\x20-\x7e]+$/', $name)) return 'nitro';
+            }
+        }
+        return null;
+    }
+}

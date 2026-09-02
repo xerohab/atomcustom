@@ -15,6 +15,13 @@ use App\Http\Controllers\Community\Staff\WebsiteTeamsController;
 use App\Http\Controllers\Community\WebsiteRareValuesController;
 use App\Http\Controllers\Help\WebsiteRulesController;
 use App\Http\Controllers\Housekeeping\LoadingScreenController;
+use App\Http\Controllers\Housekeeping\FurnitureUploaderController;
+use App\Http\Controllers\Housekeeping\SwfNitroConverterController;
+use App\Http\Controllers\Housekeeping\ClothingManagerController;
+use App\Http\Controllers\Housekeeping\ClothingUploaderController;
+use App\Http\Controllers\Housekeeping\FurnitureNameEditorController;
+use App\Http\Controllers\Housekeeping\SanctionBotController;
+use App\Http\Controllers\Housekeeping\HabboFurniApiController;
 use App\Http\Controllers\Home\HomeController as UserHomeController;
 use App\Http\Controllers\Home\ItemController as HomeItemController;
 use App\Http\Controllers\Home\MessageController as HomeMessageController;
@@ -48,6 +55,8 @@ use Laravel\Fortify\Features;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 // REAL-TIME ONLINE USER COUNT ENDPOINT
+use App\Http\Controllers\SanctionBotClientController;
+
 Route::get('/api/online-count', function () {
     $onlineCount = User::where('online', '1')->count();
 
@@ -215,7 +224,85 @@ Route::middleware(['maintenance', 'check.ban', 'force.staff.2fa'])->group(functi
         });
 
         // HOUSEKEEPING ADMIN SUITE
-        Route::prefix('housekeeping')->group(function () {
+        
+// SANCTION BOT CLIENT PROFILE API
+Route::get('/hotel-api/sanction-bots', function () {
+    $bots = \Illuminate\Support\Facades\DB::table('sanction_bots as sb')
+        ->join('bots as b', 'b.id', '=', 'sb.bot_id')
+        ->where('sb.enabled', 1)
+        ->select(
+            'sb.id',
+            'sb.name',
+            'sb.bot_id',
+            'b.name as bot_name',
+            'b.figure as bot_figure',
+            'b.gender as bot_gender',
+            'sb.speech_enabled',
+            'sb.speech_interval',
+            'sb.follow_distance'
+        )
+        ->orderBy('sb.name')
+        ->get();
+
+    return response()->json([
+        'success' => true,
+        'bots' => $bots,
+    ]);
+})
+    ->withoutMiddleware([
+        'auth',
+        \App\Http\Middleware\BannedMiddleware::class,
+        \App\Http\Middleware\ForceStaffTwoFactorMiddleware::class,
+    ])
+    ->name('hotel-api.sanction-bots');
+
+Route::prefix('housekeeping')->group(function () {
+
+            /*
+             * Read-only list used by the in-client Mod Tool.
+             * Only enabled profile names/ids are returned.
+             */
+            Route::get(
+                '/api/sanction-bots/options',
+                [SanctionBotController::class, 'options']
+            )->name('sanction-bots.options');
+
+            // SANCTION BOT MANAGER
+            Route::get(
+                '/sanction-bots/client-options',
+                [SanctionBotController::class, 'clientOptions']
+            )->name('housekeeping.sanction-bots.client-options');
+
+            Route::get(
+                '/sanction-bots',
+                [SanctionBotController::class, 'index']
+            )->name('housekeeping.sanction-bots');
+
+            Route::get(
+                '/sanction-bots/client-profiles',
+                [SanctionBotController::class, 'clientProfiles']
+            )->name('housekeeping.sanction-bots.client-profiles');
+
+            Route::get(
+                '/sanction-bots/options',
+                [SanctionBotController::class, 'options']
+            )->name('housekeeping.sanction-bots.options');
+
+            Route::post(
+                '/sanction-bots',
+                [SanctionBotController::class, 'store']
+            )->name('housekeeping.sanction-bots.store');
+
+            Route::put(
+                '/sanction-bots/{id}',
+                [SanctionBotController::class, 'update']
+            )->name('housekeeping.sanction-bots.update');
+
+            Route::delete(
+                '/sanction-bots/{id}',
+                [SanctionBotController::class, 'destroy']
+            )->name('housekeeping.sanction-bots.destroy');
+
 
             // DASHBOARD ROUTE
             Route::match(['get', 'post'], '/', function (\Illuminate\Http\Request $request) {
@@ -250,6 +337,86 @@ Route::middleware(['maintenance', 'check.ban', 'force.staff.2fa'])->group(functi
 
                 return view('housekeeping.dashboard', compact('welcomeMessage', 'pinnedNotices'));
             })->name('housekeeping.dashboard');
+
+
+            // CLOTHING LIBRARY MANAGER
+            Route::get('/clothing-manager', [ClothingManagerController::class, 'index'])
+                ->name('housekeeping.clothing-manager');
+
+Route::get(
+    '/clothing-manager/preview/{setId}',
+    [ClothingManagerController::class, 'preview']
+)
+    ->whereNumber('setId')
+    ->name('housekeeping.clothing-manager.preview');
+
+Route::get(
+    '/clothing-manager/preview-manifest',
+    [ClothingManagerController::class, 'previewManifest']
+)
+    ->name('housekeeping.clothing-manager.preview-manifest');
+
+            Route::post('/clothing-manager/apply', [ClothingManagerController::class, 'apply'])
+                ->name('housekeeping.clothing-manager.apply');
+
+
+            // CLOTHING UPLOADER
+            Route::get('/clothing-uploader', [ClothingUploaderController::class, 'index'])
+                ->name('housekeeping.clothing-uploader');
+
+            Route::post('/clothing-uploader', [ClothingUploaderController::class, 'store'])
+                ->name('housekeeping.clothing-uploader.store');
+
+            Route::get('/clothing-uploader/batch/{batch}', [ClothingUploaderController::class, 'batchStatus'])
+                ->whereNumber('batch')
+                ->name('housekeeping.clothing-uploader.batch');
+
+            // FURNITURE UPLOADER
+            Route::get('/furniture-uploader', [FurnitureUploaderController::class, 'index'])
+                ->name('housekeeping.furniture-uploader');
+
+            Route::post('/furniture-uploader', [FurnitureUploaderController::class, 'store'])
+                ->name('housekeeping.furniture-uploader.store');
+
+            Route::get('/furniture-uploader/batch/{batch}', [FurnitureUploaderController::class, 'batchStatus'])
+                ->name('housekeeping.furniture-uploader.batch');
+
+
+            // SWF -> NITRO DOWNLOAD CONVERTER
+            Route::get('/swf-nitro-converter', [SwfNitroConverterController::class, 'index'])
+                ->name('housekeeping.swf-nitro-converter');
+
+            Route::post('/swf-nitro-converter', [SwfNitroConverterController::class, 'convert'])
+                ->name('housekeeping.swf-nitro-converter.convert');
+
+            Route::get('/swf-nitro-converter/{job}/download-all', [SwfNitroConverterController::class, 'downloadAll'])
+                ->name('housekeeping.swf-nitro-converter.download-all');
+
+            Route::get('/swf-nitro-converter/{job}/download/{file}', [SwfNitroConverterController::class, 'download'])
+                ->where('file', '[A-Za-z0-9_.-]+')
+                ->name('housekeeping.swf-nitro-converter.download');
+
+            // FURNITURE NAME EDITOR
+            Route::get('/furniture-name-editor', [FurnitureNameEditorController::class, 'index'])
+                ->name('housekeeping.furniture-name-editor');
+
+            Route::post('/furniture-name-editor/{item}', [FurnitureNameEditorController::class, 'update'])
+                ->whereNumber('item')
+                ->name('housekeeping.furniture-name-editor.update');
+
+
+            // HABBOFURNI API SYNC
+            Route::get('/habbo-furni-api', [HabboFurniApiController::class, 'index'])
+                ->name('housekeeping.habbo-furni-api');
+
+            Route::get('/habbo-furni-api/scan', [HabboFurniApiController::class, 'scan'])
+                ->name('housekeeping.habbo-furni-api.scan');
+
+            Route::post('/habbo-furni-api/import', [HabboFurniApiController::class, 'import'])
+                ->name('housekeeping.habbo-furni-api.import');
+
+            Route::get('/habbo-furni-api/status', [HabboFurniApiController::class, 'status'])
+                ->name('housekeeping.habbo-furni-api.status');
 
             // HOUSEKEEPING TICKET MANAGER ROUTE
             Route::match(['get', 'post'], '/tickets', function (\Illuminate\Http\Request $request) {
@@ -821,3 +988,17 @@ if (Features::enabled(Features::twoFactorAuthentication())) {
     Route::post('/two-factor-challenge', [TwoFactorAuthenticatedSessionController::class, 'store'])
         ->middleware(array_filter(['guest:' . config('fortify.guard'), $twoFactorLimiter ? 'throttle:' . $twoFactorLimiter : null]));
 }
+
+// ------------------------------------------------------------
+// Lounge Hotel - Nitro Mod Tool sanction bot bridge
+// ------------------------------------------------------------
+Route::get(
+    '/api/modtool/sanction-bots',
+    [SanctionBotClientController::class, 'profiles']
+)->name('modtool.sanction-bots.profiles');
+
+Route::post(
+    '/api/modtool/sanction-bot/prepare',
+    [SanctionBotClientController::class, 'prepare']
+)->name('modtool.sanction-bots.prepare');
+

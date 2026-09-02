@@ -78,6 +78,7 @@
                                                 @case('manage_bans') Issue & revoke user, IP, or machine bans @break
                                                 @case('manage_settings') Edit website branding & client configuration @break
                                                 @case('manage_permissions') Modify rank permission levels @break
+                                                @case('manage_furniture_uploader') Upload/convert furniture and publish it to catalogue pages @break
                                                 @default Custom Permission Key
                                             @endswitch
                                         </td>

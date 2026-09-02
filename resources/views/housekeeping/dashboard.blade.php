@@ -121,6 +121,13 @@
                                 </a>
                             @endif
 
+                            @if(canAccessHkPermission('manage_sanction_bots'))
+                                <a href="{{ url('/housekeeping/sanction-bots') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
+                                    <span>Sanction Bot Manager</span>
+                                    <span class="font-mono text-zinc-500">&rarr;</span>
+                                </a>
+                            @endif
+
                             @if(canAccessHkPermission('manage_logs'))
                                 <a href="{{ url('/housekeeping/chatlogs') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
                                     <span>Chatlogs Auditor (Public & Private)</span>
@@ -158,6 +165,25 @@
                             @if(canAccessHkPermission('manage_shop'))
                                 <a href="{{ url('/housekeeping/shop') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
                                     <span>Web Shop Packages & Badges</span>
+                                    <span class="font-mono text-zinc-500">&rarr;</span>
+                                </a>
+                            @endif
+
+                            @if(canAccessHkPermission('manage_furniture_uploader'))
+                                <a href="{{ url('/housekeeping/furniture-uploader') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
+                                    <span>Furniture Uploader</span>
+                                    <span class="font-mono text-zinc-500">&rarr;</span>
+                                </a>
+                            @endif
+
+                            @if(canAccessHkPermission('manage_clothing_uploader'))
+                                <a href="{{ url('/housekeeping/clothing-uploader') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
+                                    <span>Clothing Uploader</span>
+                                    <span class="font-mono text-zinc-500">&rarr;</span>
+                                </a>
+
+                                <a href="{{ url('/housekeeping/clothing-manager') }}" class="block p-3 rounded-2xl bg-black/50 border border-amber-500/20 hover:border-amber-400/50 text-xs font-bold text-zinc-200 hover:text-amber-300 transition flex items-center justify-between">
+                                    <span>Clothing Library Manager</span>
                                     <span class="font-mono text-zinc-500">&rarr;</span>
                                 </a>
                             @endif

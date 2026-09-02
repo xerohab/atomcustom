@@ -1,0 +1,11 @@
+Exit code: 0
+
+STDOUT:
+
+
+STDERR:
+(node:1306084) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+- Preparing SWF Extraction
+⠋ Extracting SWF: hh_human_item⠙ Extracted SWF: hh_human_item✔ SWF Extraction: Finished in 5944ms
+

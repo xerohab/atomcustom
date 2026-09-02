@@ -1,0 +1,3 @@
+TIMEOUT_OR_EXCEPTION
+cURL error 7: Failed to connect to 127.0.0.1 port 8081 after 0 ms: Could not connect to server (see https://curl.se/libcurl/c/libcurl-errors.html) for http://127.0.0.1:8081/avatarimage?figure=hd-600-18.cp-756277-62&direction=2&head_direction=2&gesture=sml&size=l
+2026-08-29T13:33:53+00:00
