@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge - Two-Factor Authentication</title>
+    <title>Solace - Two-Factor Authentication</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,13 +33,13 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
+            background: #0f0507 url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
             background-size: cover;
         }
 
-        .lounge-card-bg {
+        .solace-card-bg {
             background-image: linear-gradient(to bottom, rgba(15, 5, 7, 0.85), rgba(15, 5, 7, 0.95)),
-                              url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
+                              url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
             background-size: cover;
             background-position: center;
         }
@@ -97,7 +97,7 @@
                             Two-Factor Authentication (2FA)
                         </h2>
                         <p class="text-xs text-zinc-400 mt-0.5">
-                            Add an extra layer of security to your Lounge Hotel account using an authenticator app.
+                            Add an extra layer of security to your Solace Hotel account using an authenticator app.
                         </p>
                     </div>
 

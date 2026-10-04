@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge ASE - Site & Hotel Settings</title>
+    <title>Solace ASE - Site & Hotel Settings</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,7 +15,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed; background-size: cover; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f0507 url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed; background-size: cover; }
     </style>
 </head>
 <body class="min-h-screen text-white relative antialiased flex flex-col justify-between">
@@ -27,7 +27,7 @@
             <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <a href="{{ url('/housekeeping') }}" class="flex items-center gap-2">
-                        <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Logo" class="h-8 w-auto">
+                        <img src="https://solacehotel.pw/assets/images/Solace.png" alt="Solace Logo" class="h-8 w-auto">
                         <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-red-950 border border-amber-500/40 px-2.5 py-1 rounded-lg">ASE</span>
                     </a>
                 </div>
@@ -59,12 +59,12 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
                             <div class="space-y-1.5">
                                 <label class="block font-bold text-amber-300">Hotel Name</label>
-                                <input type="text" name="hotel_name" value="{{ $settings['hotel_name'] ?? 'Lounge Hotel' }}" class="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-amber-500/30 text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                <input type="text" name="hotel_name" value="{{ $settings['hotel_name'] ?? 'Solace Hotel' }}" class="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-amber-500/30 text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
 
                             <div class="space-y-1.5">
                                 <label class="block font-bold text-amber-300">Logo Image Path / URL</label>
-                                <input type="text" name="logo_path" value="{{ $settings['logo_path'] ?? 'https://loungehotel.org/assets/images/lounge.png' }}" class="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-amber-500/30 text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                <input type="text" name="logo_path" value="{{ $settings['logo_path'] ?? 'https://solacehotel.pw/assets/images/Solace.png' }}" class="w-full px-4 py-2.5 rounded-xl bg-black/60 border border-amber-500/30 text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                         </div>
                     </div>

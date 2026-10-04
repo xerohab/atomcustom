@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge ASE - Administration</title>
+    <title>Solace ASE - Administration</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = { theme: { extend: { colors: { gold: { 300: '#fde047', 400: '#facc15', 500: '#eab308', 600: '#ca8a04' } } } } }
@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed; background-size: cover; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f0507 url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed; background-size: cover; }
     </style>
 </head>
 <body class="min-h-screen text-white relative antialiased flex flex-col justify-between">
@@ -24,7 +24,7 @@
             <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <a href="{{ url('/user/me') }}" class="flex items-center gap-2">
-                        <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Logo" class="h-8 w-auto">
+                        <img src="https://solacehotel.pw/assets/images/Solace.png" alt="Solace Logo" class="h-8 w-auto">
                         <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-red-950 border border-amber-500/40 px-2.5 py-1 rounded-lg">ASE</span>
                     </a>
                 </div>
@@ -101,7 +101,7 @@
                     <div class="space-y-3">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
                             <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">User Management</h2>
-                            <img src="https://loungehotel.org/assets/images/icons/credits.png" class="h-4 w-4 object-contain" alt="">
+                            <img src="https://solacehotel.pw/assets/images/icons/credits.png" class="h-4 w-4 object-contain" alt="">
                         </div>
                         <p class="text-[11px] text-zinc-400 leading-relaxed">Manage accounts, currencies, owned furniture, support tickets, and user punishments.</p>
                         <div class="space-y-2 pt-1">
@@ -127,7 +127,7 @@
                     <div class="space-y-3">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
                             <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">Furniture & Catalog</h2>
-                            <img src="https://loungehotel.org/assets/images/icons/diamonds.png" class="h-4 w-4 object-contain" alt="">
+                            <img src="https://solacehotel.pw/assets/images/icons/diamonds.png" class="h-4 w-4 object-contain" alt="">
                         </div>
                         <p class="text-[11px] text-zinc-400 leading-relaxed">Upload furniture, sync missing HabboFurni API furniture, correct furniture display names, and manage web shop packages and badges.</p>
                         <div class="space-y-2 pt-1">
@@ -164,7 +164,7 @@
                     <div class="space-y-3">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
                             <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">Content & Communication</h2>
-                            <img src="https://loungehotel.org/assets/images/icons/duckets.png" class="h-4 w-4 object-contain" alt="">
+                            <img src="https://solacehotel.pw/assets/images/icons/duckets.png" class="h-4 w-4 object-contain" alt="">
                         </div>
                         <p class="text-[11px] text-zinc-400 leading-relaxed">Publish hotel news, manage existing articles, review chat history, and communicate with staff.</p>
                         <div class="space-y-2 pt-1">
@@ -189,7 +189,7 @@
                     <div class="space-y-3">
                         <div class="flex items-center justify-between border-b border-amber-500/20 pb-3">
                             <h2 class="text-xs font-extrabold text-amber-400 uppercase tracking-wider">System & Staff</h2>
-                            <img src="https://loungehotel.org/assets/images/icons/duckets.png" class="h-4 w-4 object-contain" alt="">
+                            <img src="https://solacehotel.pw/assets/images/icons/duckets.png" class="h-4 w-4 object-contain" alt="">
                         </div>
                         <p class="text-[11px] text-zinc-400 leading-relaxed">Manage staff applications and permissions, hotel settings, and client presentation options.</p>
                         <div class="space-y-2 pt-1">

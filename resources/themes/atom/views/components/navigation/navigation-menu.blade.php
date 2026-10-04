@@ -3,7 +3,7 @@
         <div class="flex items-center justify-between gap-3">
             <div class="flex items-center gap-6 min-w-0">
                 <a href="{{ url('/user/me') }}" class="shrink-0">
-                    <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Hotel Logo" class="h-8 sm:h-9 w-auto">
+                    <img src="https://solacehotel.pw/assets/images/Solace.png" alt="Solace Hotel Logo" class="h-8 sm:h-9 w-auto">
                 </a>
 
                 <nav class="hidden md:flex items-center gap-5 text-xs font-bold uppercase tracking-wider">
@@ -54,7 +54,7 @@
                     <svg class="w-6 h-6 group-open:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     <svg class="w-6 h-6 hidden group-open:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </summary>
-                <div class="lounge-mobile-nav-panel fixed left-3 right-3 top-[68px] rounded-2xl border border-amber-500/40 shadow-2xl p-3 max-h-[calc(100vh-84px)] overflow-y-auto" style="background-color: rgb(9 9 11); z-index: 99999; pointer-events: auto; isolation: isolate;">
+                <div class="solace-mobile-nav-panel fixed left-3 right-3 top-[68px] rounded-2xl border border-amber-500/40 shadow-2xl p-3 max-h-[calc(100vh-84px)] overflow-y-auto" style="background-color: rgb(9 9 11); z-index: 99999; pointer-events: auto; isolation: isolate;">
                     <div class="grid grid-cols-2 gap-2 text-xs font-extrabold uppercase tracking-wide">
                         <a href="{{ url('/user/me') }}" class="px-3 py-3 rounded-xl bg-black/50 border border-amber-500/20 text-amber-300">Home</a>
                         @auth<a href="{{ url('/profile/' . auth()->user()->username) }}" class="px-3 py-3 rounded-xl bg-black/50 border border-amber-500/20 text-zinc-200">My Profile</a>@endauth

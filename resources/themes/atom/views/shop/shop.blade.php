@@ -19,7 +19,7 @@
                 </x-slot>
 
                 <div class="space-y-3 p-2 text-xs text-zinc-300">
-                    <p>{{ __('Here at :hotel Hotel we are accepting donations to keep the hotel up & running and as a thank you, you will in return receive in-game goods.', ['hotel' => setting('hotel_name', 'Lounge')]) }}</p>
+                    <p>{{ __('Here at :hotel Hotel we are accepting donations to keep the hotel up & running and as a thank you, you will in return receive in-game goods.', ['hotel' => setting('hotel_name', 'Solace')]) }}</p>
                     <p class="font-semibold text-amber-300">{{ __('Our terms') }}</p>
                     <p>{{ __('Once a donation has been made, it is non-refundable under any circumstances. Balance cannot be converted back into cash. By donating, you agree not to initiate a chargeback.') }}</p>
                 </div>
@@ -145,7 +145,7 @@
             </x-slot:title>
 
             <x-slot:under-title>
-                {{ __('Donate to :hotel', ['hotel' => setting('hotel_name', 'Lounge')]) }}
+                {{ __('Donate to :hotel', ['hotel' => setting('hotel_name', 'Solace')]) }}
             </x-slot:under-title>
 
             <div class="text-xs text-center py-2 px-3 rounded-xl bg-zinc-950 border border-zinc-800 text-white my-2">

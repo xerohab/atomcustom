@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge - {{ $user->username }}'s Profile</title>
+    <title>Solace - {{ $user->username }}'s Profile</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,13 +33,13 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0f0507 url('{{ !empty($user->profile_background) ? asset('storage/' . $user->profile_background) : 'https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png' }}') no-repeat center center fixed;
+            background: #0f0507 url('{{ !empty($user->profile_background) ? asset('storage/' . $user->profile_background) : 'https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png' }}') no-repeat center center fixed;
             background-size: cover;
         }
 
-        .lounge-card-bg {
+        .solace-card-bg {
             background-image: linear-gradient(to bottom, rgba(15, 5, 7, 0.85), rgba(15, 5, 7, 0.95)),
-                              url('{{ !empty($user->profile_background) ? asset('storage/' . $user->profile_background) : 'https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png' }}');
+                              url('{{ !empty($user->profile_background) ? asset('storage/' . $user->profile_background) : 'https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png' }}');
             background-size: cover;
             background-position: center;
         }

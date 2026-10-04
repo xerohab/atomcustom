@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge - Welcome to LoungeHotel</title>
+    <title>Solace - Welcome to SolaceHotel</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,13 +32,13 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
+            background: #0f0507 url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
             background-size: cover;
         }
 
-        .lounge-hero-bg {
+        .solace-hero-bg {
             background-image: linear-gradient(to bottom, rgba(15, 5, 7, 0.75), rgba(15, 5, 7, 0.85)),
-                              url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
+                              url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
             background-size: cover;
             background-position: center;
         }
@@ -54,18 +54,18 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
 
             <!-- Left Hero Box -->
-            <div class="lg:col-span-7 lounge-hero-bg border-2 border-amber-500/30 rounded-3xl p-8 lg:p-10 text-white shadow-2xl flex flex-col justify-between min-h-[500px] relative overflow-hidden">
+            <div class="lg:col-span-7 solace-hero-bg border-2 border-amber-500/30 rounded-3xl p-8 lg:p-10 text-white shadow-2xl flex flex-col justify-between min-h-[500px] relative overflow-hidden">
                 <div class="space-y-6 relative z-10">
                     <div class="flex items-center gap-3">
-                        <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Hotel Logo" class="h-16 w-auto drop-shadow-lg">
+                        <img src="https://solacehotel.pw/assets/images/Solace.png" alt="Solace Hotel Logo" class="h-16 w-auto drop-shadow-lg">
                     </div>
 
                     <div class="space-y-2 pt-4">
                         <h1 class="text-4xl lg:text-5xl font-extrabold tracking-tight text-white">
-                            Welcome to <span class="text-amber-400">LoungeHotel</span>
+                            Welcome to <span class="text-amber-400">SolaceHotel</span>
                         </h1>
                         <p class="text-amber-100/90 text-lg leading-relaxed max-w-lg font-medium drop-shadow-md">
-                            Relax in comfort, experience luxury, and find your people at the Lounge.
+                            Relax in comfort, experience luxury, and find your people at the Solace.
                         </p>
                     </div>
                 </div>
@@ -130,7 +130,7 @@
                     </div>
 
                     <button type="submit" class="w-full py-4 px-6 rounded-xl font-bold text-amber-100 bg-gradient-to-r from-red-900 via-red-800 to-amber-700 hover:from-red-800 hover:to-amber-600 border border-amber-400/40 shadow-xl transform active:scale-95 transition-all text-sm uppercase tracking-wide">
-                        Enter Lounge &rarr;
+                        Enter Solace &rarr;
                     </button>
                 </form>
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ setting('hotel_name', 'Lounge') }} - Shop</title>
+    <title>{{ setting('hotel_name', 'Solace') }} - Shop</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -32,7 +32,7 @@
         <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
             <div class="flex items-center gap-6">
                 <a href="{{ url('/user/me') }}">
-                    <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Logo" class="h-9 w-auto">
+                    <img src="https://solacehotel.pw/assets/images/Solace.png" alt="Solace Logo" class="h-9 w-auto">
                 </a>
                 <nav class="hidden md:flex items-center gap-5 text-xs font-bold uppercase tracking-wider">
                     <a href="{{ url('/user/me') }}" class="{{ Request::is('user/me') || Request::is('me') ? 'text-amber-400 border-b-2 border-amber-400 pb-1' : 'text-zinc-300 hover:text-amber-300 transition' }}">Home</a>
@@ -152,7 +152,7 @@
                                 <div class="grid grid-cols-2 gap-2 text-[11px]">
                                     @if($article->credits > 0)
                                         <div class="p-2.5 rounded-xl bg-black/50 border border-amber-500/10 text-zinc-300 flex items-center gap-2">
-                                            <img src="https://loungehotel.org/assets/images/icons/credits.png" class="h-4 w-4 object-contain" alt="Credits" onerror="this.src='/assets/images/icons/navigation/shop.png'">
+                                            <img src="https://solacehotel.pw/assets/images/icons/credits.png" class="h-4 w-4 object-contain" alt="Credits" onerror="this.src='/assets/images/icons/navigation/shop.png'">
                                             <span>Credits:</span>
                                             <span class="text-amber-400 font-extrabold ml-auto">+{{ number_format($article->credits) }}</span>
                                         </div>
@@ -160,7 +160,7 @@
 
                                     @if($article->duckets > 0)
                                         <div class="p-2.5 rounded-xl bg-black/50 border border-amber-500/10 text-zinc-300 flex items-center gap-2">
-                                            <img src="https://loungehotel.org/assets/images/icons/duckets.png" class="h-4 w-4 object-contain" alt="Duckets" onerror="this.src='/assets/images/icons/navigation/shop.png'">
+                                            <img src="https://solacehotel.pw/assets/images/icons/duckets.png" class="h-4 w-4 object-contain" alt="Duckets" onerror="this.src='/assets/images/icons/navigation/shop.png'">
                                             <span>Duckets:</span>
                                             <span class="text-amber-400 font-extrabold ml-auto">+{{ number_format($article->duckets) }}</span>
                                         </div>
@@ -168,7 +168,7 @@
 
                                     @if($article->diamonds > 0)
                                         <div class="p-2.5 rounded-xl bg-black/50 border border-amber-500/10 text-zinc-300 flex items-center gap-2">
-                                            <img src="https://loungehotel.org/assets/images/icons/diamonds.png" class="h-4 w-4 object-contain" alt="Diamonds" onerror="this.src='/assets/images/icons/navigation/shop.png'">
+                                            <img src="https://solacehotel.pw/assets/images/icons/diamonds.png" class="h-4 w-4 object-contain" alt="Diamonds" onerror="this.src='/assets/images/icons/navigation/shop.png'">
                                             <span>Diamonds:</span>
                                             <span class="text-amber-400 font-extrabold ml-auto">+{{ number_format($article->diamonds) }}</span>
                                         </div>
@@ -266,7 +266,7 @@
                 <h3 class="text-base font-extrabold text-amber-400 uppercase tracking-wide">Shop Terms & Conditions</h3>
                 <button type="button" onclick="document.getElementById('termsModal').classList.add('hidden')" class="text-zinc-400 hover:text-white font-bold">&times;</button>
             </div>
-            <p>Here at {{ setting('hotel_name', 'Lounge') }} we accept donations to pay our server hosting costs. In return, digital items are credited instantly to your account.</p>
+            <p>Here at {{ setting('hotel_name', 'Solace') }} we accept donations to pay our server hosting costs. In return, digital items are credited instantly to your account.</p>
             <p class="font-bold text-amber-300">Non-Refundable Policy</p>
             <p>All donations are non-refundable. Balance cannot be converted back into money. By purchasing, you agree not to initiate bank chargebacks.</p>
             <div class="pt-3 border-t border-amber-500/20 flex justify-end">

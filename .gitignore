@@ -48,3 +48,12 @@ RELEASE.md
 /.yarn/
 .env.*
 !.env.example
+
+# ============================================================
+# Solace server backups / temporary working copies
+# ============================================================
+*.backup-*
+*.bak-before-*
+*.before-*
+*.broken-*
+*backup-mobile*

@@ -990,7 +990,7 @@ if (Features::enabled(Features::twoFactorAuthentication())) {
 }
 
 // ------------------------------------------------------------
-// Lounge Hotel - Nitro Mod Tool sanction bot bridge
+// Solace Hotel - Nitro Mod Tool sanction bot bridge
 // ------------------------------------------------------------
 Route::get(
     '/api/modtool/sanction-bots',

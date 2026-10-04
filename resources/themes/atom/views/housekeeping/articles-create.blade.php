@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge ASE - Publish Article</title>
+    <title>Solace ASE - Publish Article</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -22,7 +22,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Trumbowyg/2.27.0/trumbowyg.min.js"></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed; background-size: cover; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #0f0507 url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed; background-size: cover; }
 
         /* HIGH-CONTRAST RED & GOLD TOOLBAR STYLING */
         .trumbowyg-box { background-color: rgba(0, 0, 0, 0.75) !important; border: 2px solid rgba(234, 179, 8, 0.4) !important; border-radius: 1rem !important; overflow: hidden; }
@@ -47,7 +47,7 @@
             <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <a href="{{ url('/housekeeping') }}" class="flex items-center gap-2">
-                        <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Logo" class="h-8 w-auto">
+                        <img src="https://solacehotel.pw/assets/images/Solace.png" alt="Solace Logo" class="h-8 w-auto">
                         <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-red-950 border border-amber-500/40 px-2.5 py-1 rounded-lg">ASE</span>
                     </a>
                 </div>
@@ -76,7 +76,7 @@
                             </div>
                             <div class="space-y-1.5">
                                 <label class="block text-[11px] font-bold text-zinc-300">...or Direct Banner URL</label>
-                                <input type="text" name="image" placeholder="https://loungehotel.org/assets/images/news/banner.png" class="w-full px-4 py-2 rounded-xl bg-black/50 border border-amber-500/30 text-white placeholder-zinc-500 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
+                                <input type="text" name="image" placeholder="https://solacehotel.pw/assets/images/news/banner.png" class="w-full px-4 py-2 rounded-xl bg-black/50 border border-amber-500/30 text-white placeholder-zinc-500 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500">
                             </div>
                         </div>
                     </div>

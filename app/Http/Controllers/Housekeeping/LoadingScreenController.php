@@ -17,16 +17,16 @@ class LoadingScreenController extends Controller
     {
         return [
             'enabled' => true,
-            'background_url' => 'https://loungehotel.org/assets/images/loading.png',
-            'logo_url' => 'https://loungehotel.org/assets/images/lounge.png',
+            'background_url' => 'https://solacehotel.pw/assets/images/loading.png',
+            'logo_url' => 'https://solacehotel.pw/assets/images/Solace.png',
             'tips_enabled' => true,
             'rotation_seconds' => 5,
             'panel_opacity' => 0.72,
             'headings' => [
-                'preparing' => 'Preparing Lounge',
+                'preparing' => 'Preparing Solace',
                 'loading' => 'Loading Hotel',
                 'almost' => 'Almost there...',
-                'complete' => 'Welcome to Lounge!',
+                'complete' => 'Welcome to Solace!',
             ],
             'progress_colors' => [
                 'start' => '#8a4d00',
@@ -34,11 +34,11 @@ class LoadingScreenController extends Controller
                 'end' => '#ffd85e',
             ],
             'tips' => [
-                'Meet friends, build rooms and make Lounge your own.',
+                'Meet friends, build rooms and make Solace your own.',
                 'Check the catalogue for new furniture and seasonal releases.',
                 'Use the Navigator to discover rooms, games and events.',
                 'Never share your password or account details with anybody.',
-                'Keep an eye on the Lounge website for hotel news and updates.',
+                'Keep an eye on the Solace website for hotel news and updates.',
             ],
         ];
     }

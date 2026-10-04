@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Lounge ASE - Clothing Uploader</title>
+    <title>Solace ASE - Clothing Uploader</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -66,8 +66,8 @@
     <div class="max-w-[1700px] mx-auto px-4 py-3 flex items-center justify-between">
         <a href="{{ url('/housekeeping') }}" class="flex items-center gap-2">
             <img
-                src="https://loungehotel.org/assets/images/lounge.png"
-                alt="Lounge Logo"
+                src="https://solacehotel.pw/assets/images/Solace.png"
+                alt="Solace Logo"
                 class="h-8 w-auto"
             >
 

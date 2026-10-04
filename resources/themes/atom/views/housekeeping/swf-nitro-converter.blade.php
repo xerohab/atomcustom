@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge ASE - SWF → Nitro Converter</title>
+    <title>Solace ASE - SWF → Nitro Converter</title>
 
     <script src="https://cdn.tailwindcss.com"></script>
 
@@ -36,7 +36,7 @@
         body {
             font-family:'Plus Jakarta Sans',sans-serif;
             background:#0f0507
-                url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png')
+                url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png')
                 no-repeat center center fixed;
             background-size:cover;
         }
@@ -59,8 +59,8 @@
 
         <a href="{{ url('/housekeeping') }}" class="flex items-center gap-2">
             <img
-                src="https://loungehotel.org/assets/images/lounge.png"
-                alt="Lounge Logo"
+                src="https://solacehotel.pw/assets/images/Solace.png"
+                alt="Solace Logo"
                 class="h-8 w-auto"
             >
             <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-red-950 border border-amber-500/40 px-2.5 py-1 rounded-lg">

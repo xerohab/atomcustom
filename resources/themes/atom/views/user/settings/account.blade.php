@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge - Account Settings</title>
+    <title>Solace - Account Settings</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -33,13 +33,13 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
+            background: #0f0507 url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
             background-size: cover;
         }
 
-        .lounge-card-bg {
+        .solace-card-bg {
             background-image: linear-gradient(to bottom, rgba(15, 5, 7, 0.85), rgba(15, 5, 7, 0.95)),
-                              url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
+                              url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
             background-size: cover;
             background-position: center;
         }
@@ -143,14 +143,14 @@
                             <select name="profile_quote_prefix" class="md:col-span-1 px-3 py-2.5 rounded-xl bg-black/50 border border-amber-500/30 text-amber-200 text-xs focus:outline-none focus:ring-2 focus:ring-amber-500 font-bold truncate">
                                 <option value="">Select a sentence starter...</option>
                                 <option value="Something you wouldn't know about me..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "Something you wouldn't know about me..." ? 'selected' : '' }}>Something you wouldn't know about me...</option>
-                                <option value="When I'm not on Lounge, you can find me..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "When I'm not on Lounge, you can find me..." ? 'selected' : '' }}>When I'm not on Lounge, you can find me...</option>
+                                <option value="When I'm not on Solace, you can find me..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "When I'm not on Solace, you can find me..." ? 'selected' : '' }}>When I'm not on Solace, you can find me...</option>
                                 <option value="My unshakeable hot take..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "My unshakeable hot take..." ? 'selected' : '' }}>My unshakeable hot take...</option>
                                 <option value="My favorite core memory..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "My favorite core memory..." ? 'selected' : '' }}>My favorite core memory...</option>
                                 <option value="The best piece of advice I ever received..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "The best piece of advice I ever received..." ? 'selected' : '' }}>The best piece of advice I ever received...</option>
                                 <option value="If I had 1,000,000 Credits, I would..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "If I had 1,000,000 Credits, I would..." ? 'selected' : '' }}>If I had 1,000,000 Credits, I would...</option>
                                 <option value="My guilty pleasure..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "My guilty pleasure..." ? 'selected' : '' }}>My guilty pleasure...</option>
                                 <option value="A random fun fact about me..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "A random fun fact about me..." ? 'selected' : '' }}>A random fun fact about me...</option>
-                                <option value="My dream room build in Lounge is..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "My dream room build in Lounge is..." ? 'selected' : '' }}>My dream room build in Lounge is...</option>
+                                <option value="My dream room build in Solace is..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "My dream room build in Solace is..." ? 'selected' : '' }}>My dream room build in Solace is...</option>
                                 <option value="You can always win me over with..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "You can always win me over with..." ? 'selected' : '' }}>You can always win me over with...</option>
                                 <option value="The worst habit I have is..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "The worst habit I have is..." ? 'selected' : '' }}>The worst habit I have is...</option>
                                 <option value="My favorite quote of all time is..." {{ old('profile_quote_prefix', auth()->user()->profile_quote_prefix) === "My favorite quote of all time is..." ? 'selected' : '' }}>My favorite quote of all time is...</option>

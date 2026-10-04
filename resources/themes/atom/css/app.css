@@ -344,7 +344,7 @@ html.dark .badge-drawer-button {
 }
 
 
-/* Lounge CMS mobile safety layer */
+/* Solace CMS mobile safety layer */
 @media (max-width: 767px) {
     html, body { max-width: 100%; overflow-x: hidden; }
     img, video, iframe { max-width: 100%; }
@@ -353,7 +353,7 @@ html.dark .badge-drawer-button {
 }
 
 
-/* Lounge CMS Mobile V2 - solid, clickable navigation overlay */
+/* Solace CMS Mobile V2 - solid, clickable navigation overlay */
 @media (max-width: 767px) {
     header:has(details[open]) {
         z-index: 99990 !important;
@@ -364,7 +364,7 @@ html.dark .badge-drawer-button {
         z-index: 99998 !important;
     }
 
-    .lounge-mobile-nav-panel {
+    .solace-mobile-nav-panel {
         background: #09090b !important;
         opacity: 1 !important;
         z-index: 99999 !important;
@@ -373,13 +373,13 @@ html.dark .badge-drawer-button {
         -webkit-overflow-scrolling: touch;
     }
 
-    .lounge-mobile-nav-panel,
-    .lounge-mobile-nav-panel * {
+    .solace-mobile-nav-panel,
+    .solace-mobile-nav-panel * {
         pointer-events: auto !important;
     }
 
-    .lounge-mobile-nav-panel a,
-    .lounge-mobile-nav-panel button {
+    .solace-mobile-nav-panel a,
+    .solace-mobile-nav-panel button {
         position: relative;
         z-index: 100000;
         touch-action: manipulation;

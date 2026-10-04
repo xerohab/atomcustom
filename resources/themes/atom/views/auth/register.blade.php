@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lounge - Create Your Character</title>
+    <title>Solace - Create Your Character</title>
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -32,13 +32,13 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #0f0507 url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
+            background: #0f0507 url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png') no-repeat center center fixed;
             background-size: cover;
         }
 
-        .lounge-hero-bg {
+        .solace-hero-bg {
             background-image: linear-gradient(to bottom, rgba(15, 5, 7, 0.8), rgba(15, 5, 7, 0.9)),
-                              url('https://loungehotel.org/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
+                              url('https://solacehotel.pw/assets/images/1661a9e4-324e-4336-885b-c1c707fd7db7.png');
             background-size: cover;
             background-position: center;
         }
@@ -54,11 +54,11 @@
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
 
             <!-- Left Panel: Avatar Look Customizer -->
-            <div class="lg:col-span-5 lounge-hero-bg border-2 border-amber-500/30 rounded-3xl p-6 lg:p-8 text-white shadow-2xl flex flex-col justify-between items-center text-center relative">
+            <div class="lg:col-span-5 solace-hero-bg border-2 border-amber-500/30 rounded-3xl p-6 lg:p-8 text-white shadow-2xl flex flex-col justify-between items-center text-center relative">
 
                 <div class="w-full">
                     <div class="flex justify-center mb-4">
-                        <img src="https://loungehotel.org/assets/images/lounge.png" alt="Lounge Hotel Logo" class="h-12 w-auto drop-shadow-lg">
+                        <img src="https://solacehotel.pw/assets/images/Solace.png" alt="Solace Hotel Logo" class="h-12 w-auto drop-shadow-lg">
                     </div>
                     <h2 class="text-2xl font-extrabold text-amber-400">Design Your Avatar</h2>
                     <p class="text-xs text-amber-100/70 mt-1">Select a style or preset for your hotel character.</p>
@@ -98,7 +98,7 @@
                 <div>
                     <div class="flex justify-between items-center mb-6">
                         <div>
-                            <h2 class="text-3xl font-extrabold text-amber-400">Join LoungeHotel</h2>
+                            <h2 class="text-3xl font-extrabold text-amber-400">Join SolaceHotel</h2>
                             <p class="text-sm text-zinc-400 mt-1">Create your free account and start exploring.</p>
                         </div>
                         <a href="{{ url('/') }}" class="text-xs font-bold text-amber-400/80 hover:text-amber-400 uppercase tracking-wider">
